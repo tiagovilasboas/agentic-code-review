@@ -9,6 +9,7 @@ What changed, and what is explicitly **out of scope**?
 - [ ] Skill (`skills/…`)
 - [ ] Runbook (`runbooks/…`)
 - [ ] Guardrail (`guardrails/…`)
+- [ ] Examples (`examples/…`)
 - [ ] Hygiene / docs only (LICENSE, CONTRIBUTING, templates)
 
 ## How to verify
