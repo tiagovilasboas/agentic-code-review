@@ -1,0 +1,123 @@
+name: Add a skill
+description: Propose a new agentic PR-review skill (what the agent checks on a diff).
+title: "[skill]: "
+labels:
+  - skill
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Propose **one** reusable review skill. Skills are harness-agnostic contracts: Purpose, numbered instructions, and an evidence-backed output format.
+
+        Read [CONTRIBUTING.md](../../CONTRIBUTING.md) and [guardrails/evidence-required.md](../../guardrails/evidence-required.md) before filing.
+
+        This is **not** the place for exploit PoCs, vendor-only playbooks, or “review the whole PR” prompts.
+
+  - type: input
+    id: skill-name
+    attributes:
+      label: Skill name
+      description: English kebab-case filename (without `.md`).
+      placeholder: ssrf-url-fetch
+    validations:
+      required: true
+
+  - type: textarea
+    id: purpose
+    attributes:
+      label: Purpose
+      description: One sentence. What risk does the agent look for in a PR diff?
+      placeholder: Find user-controlled URLs passed to server-side fetch without allowlist or private-IP checks.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: risk-class
+    attributes:
+      label: Primary risk class
+      description: Map to OWASP LLM / GenAI agentic risk. Pick the class this skill actually exercises — not the full Top 10.
+      options:
+        - LLM01 Prompt Injection (untrusted text steering the agent)
+        - LLM02 Insecure Output Handling (model output used unsafely downstream)
+        - LLM06 Sensitive Information Disclosure (secrets, tokens, private URLs)
+        - LLM08 Excessive Agency (agent would take an unsafe action)
+        - LLM09 Overreliance (human must not trust a finding without evidence)
+        - Agentic — authorization / object-level access (IDOR-style)
+        - Agentic — tool / fetch misuse (SSRF, dangerous defaults)
+        - Other (explain in notes)
+    validations:
+      required: true
+
+  - type: textarea
+    id: instructions
+    attributes:
+      label: Instructions outline
+      description: Numbered, fail-closed steps the agent should run on the **diff**. No merge, patch, or exploit steps.
+      placeholder: |
+        1. Scan the diff for fetch/HTTP clients that take a URL from request input.
+        2. Check for allowlist, scheme restriction, or private-IP rejection.
+        3. Report only with file:line + one-line why.
+        4. If the sink is outside the diff, mark insufficient evidence.
+    validations:
+      required: true
+
+  - type: textarea
+    id: output-format
+    attributes:
+      label: Output format
+      description: Must match GitHub code-security style — location, severity, nature of the problem.
+      value: |
+        `SEVERITY` | `file:line` | summary | (optional CWE only if obvious)
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence contract
+      description: How will a reviewer verify a finding without trusting the model? Cite path:line, not a paragraph.
+      placeholder: HIGH | src/api/proxy.ts:88 | request URL passed to fetch without private-range check
+    validations:
+      required: true
+
+  - type: textarea
+    id: human-gate
+    attributes:
+      label: Human gate
+      description: When must a human stop, escalate, or refuse? The agent must not merge.
+      placeholder: Human decides request-changes if any HIGH finding has a valid path:line. Agent never opens a follow-up PR.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: validated
+    attributes:
+      label: Validated on a real PR diff?
+      options:
+        - "Yes — I ran this outline on a diff (describe below)"
+        - "Not yet — proposal only"
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes / sources
+      description: Optional public sources (OWASP LLM Top 10, OWASP GenAI, GitHub code-security docs). No unpublished exploit detail.
+
+  - type: checkboxes
+    id: gates
+    attributes:
+      label: Gates
+      options:
+        - label: Single risk, not a whole-PR prompt dump
+          required: true
+        - label: Harness-agnostic (no required vendor, MCP, or CI product)
+          required: true
+        - label: Findings require `file:line` or `insufficient evidence`
+          required: true
+        - label: No exploit PoC, payload, or agent-merge instructions
+          required: true
+        - label: English filename and body
+          required: true
