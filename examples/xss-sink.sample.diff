@@ -1,0 +1,28 @@
+diff --git a/web/src/components/CommentBody.tsx b/web/src/components/CommentBody.tsx
+index 1111111..2222222 100644
+--- a/web/src/components/CommentBody.tsx
++++ b/web/src/components/CommentBody.tsx
+@@ -1,19 +1,22 @@
+ import { useComment } from "../hooks/useComment";
+ 
+ type CommentBodyProps = {
+   commentId: string;
+ };
+ 
+ export function CommentBody({ commentId }: CommentBodyProps): JSX.Element | null {
+   const comment = useComment(commentId);
+ 
+   if (!comment) {
+     return null;
+   }
+ 
+   return (
+     <article className="comment-body" data-comment-id={commentId}>
+-      <div className="comment-html">{comment.body}</div>
++      <div
++        className="comment-html"
++        dangerouslySetInnerHTML={{ __html: comment.body }}
++      />
+     </article>
+   );
+ }

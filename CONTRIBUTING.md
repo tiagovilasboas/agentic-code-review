@@ -155,13 +155,16 @@ Then:
 # 1. Read the human + agent flow
 #    runbooks/00-overview.md
 #
-# 2. Optional dry-run on the sample diff
-#    examples/sample-pr.diff
-#    examples/sample-report.md
+# 2. Optional dry-run on a sample diff
+#    examples/sample-pr.diff + examples/sample-report.md
+#    examples/xss-sink.sample.diff + examples/xss-sink.sample-report.md
 #
 # 3. Point your agent at one skill and a PR diff
 #    skills/authz-idor.md
 #    skills/secrets-config.md
+#    skills/xss-html.md
+#    skills/ssrf-egress.md
+#    skills/supply-chain.md
 #
 # 4. Enforce the evidence guardrail before you trust the report
 #    guardrails/evidence-required.md
@@ -199,4 +202,4 @@ insufficient evidence — identifier usage is outside the provided diff
 
 PRs are reviewed as Staff AppSec artifacts: problem first, evidence second, agency last. Expect questions of the form “where is the line?” and “why does the agent stop here?”.
 
-Stage 1 added denser skills (`authz-idor`, `secrets-config`), a denser overview runbook, and `examples/` (`sample-pr.diff`, `sample-report.md`) for dry-runs. Further stages may add more skills; keep examples free of exploit PoCs.
+Stage 1 added denser skills (`authz-idor`, `secrets-config`), a denser overview runbook, and `examples/` (`sample-pr.diff`, `sample-report.md`) for dry-runs. Stage 2 added `xss-html`, `ssrf-egress`, `supply-chain`, and `examples/xss-sink.sample.*`. Further stages may add more skills; keep examples free of exploit PoCs.
