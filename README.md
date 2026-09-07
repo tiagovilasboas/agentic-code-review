@@ -1,12 +1,8 @@
 # Agentic Code Review
 
-## Purpose / Propósito
+Actionable kit for agentic PR review: **skills**, **runbooks**, and fail-closed **guardrails**. Findings need AppSec evidence (`path:line`).
 
-**PT:** Entregar um kit **simples e acionável** para review de PR com agents: **skills** (o que o agent faz), **runbooks** (quando humano entra), **guardrails** (o que nunca pode pular). Valor pra comunidade + evidência pública de AppSec · Agentic.
-
-**EN:** A **simple, actionable** kit for agentic PR review: **skills** (what the agent does), **runbooks** (when humans step in), **guardrails** (what must never be skipped). Community value + public AppSec · Agentic evidence.
-
-**Não é / Not:** scanner SaaS · dump de 50 prompts · “AI review” sem evidência arquivo:linha.
+Kit acionável de review de PR com agents: skills, runbooks e guardrails. Achado só com evidência AppSec (`path:line`).
 
 Maintainer: [Tiago Montanha](https://github.com/tiagovilasboas) · Staff · AppSec · Agentic AI
 
@@ -41,12 +37,6 @@ Agent do/don't (any harness): [`AGENTS.md`](AGENTS.md).
 
 ---
 
-## Contributing
-
-See [`CONTRIBUTING.md`](CONTRIBUTING.md) for how to add a skill or runbook, the evidence contract (`path:line` or silence), and the pull-request checklist. Use the **Add a skill** issue template to propose new skills.
-
----
-
 ## Inspired by
 
 - [OWASP secure-agent-playbook](https://github.com/owasp/secure-agent-playbook)
@@ -55,8 +45,18 @@ See [`CONTRIBUTING.md`](CONTRIBUTING.md) for how to add a skill or runbook, the 
 - [OWASP AISVS](https://owasp.org/www-project-artificial-intelligence-security-verification-standard-aisvs-docs/)
 - [OWASP appsec-agent](https://github.com/OWASP/appsec-agent)
 
-Related: [agent-measurement](https://github.com/tiagovilasboas/agent-measurement) · [awesome-agentic-ai](https://github.com/tiagovilasboas/awesome-agentic-ai) · [kiro-playbook](https://github.com/tiagovilasboas/kiro-playbook)
+## Related
+
+- [agent-measurement](https://github.com/tiagovilasboas/agent-measurement)
+- [awesome-agentic-ai](https://github.com/tiagovilasboas/awesome-agentic-ai)
+- [kiro-playbook](https://github.com/tiagovilasboas/kiro-playbook)
+
+## Contributing
+
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for how to add a skill or runbook, the evidence contract (`path:line` or silence), and the pull-request checklist. Use the **Add a skill** issue template to propose new skills.
+
+Agent notes: [`AGENTS.md`](AGENTS.md).
 
 ## License
 
-MIT
+MIT — see [LICENSE](LICENSE).
