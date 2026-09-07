@@ -9,8 +9,9 @@ Harness-agnostic layout for any agent that reviews a pull-request diff with this
 | `skills/` | What you check (one skill at a time) |
 | `runbooks/` | When a human must step in |
 | `guardrails/` | What you must never skip |
+| `examples/` | Sample diff + report shape for dry-runs |
 
-Start with [`runbooks/00-overview.md`](runbooks/00-overview.md). Enforce [`guardrails/evidence-required.md`](guardrails/evidence-required.md) on every finding.
+Start with [`runbooks/00-overview.md`](runbooks/00-overview.md). Enforce [`guardrails/evidence-required.md`](guardrails/evidence-required.md) on every finding. Optional dry-run: [`examples/sample-pr.diff`](examples/sample-pr.diff) vs [`examples/sample-report.md`](examples/sample-report.md).
 
 ## Do
 
