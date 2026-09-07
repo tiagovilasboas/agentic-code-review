@@ -38,7 +38,7 @@ Maintainer: [Tiago Montanha](https://github.com/tiagovilasboas) · Staff · AppS
 - [OWASP AISVS](https://owasp.org/www-project-artificial-intelligence-security-verification-standard-aisvs-docs/)
 - [OWASP appsec-agent](https://github.com/OWASP/appsec-agent)
 
-Related: [agent-measurement](https://github.com/tiagovilasboas/agent-measurement) · [awesome-agentic-ai](https://github.com/tiagovilasboas/awesome-agentic-ai)
+Related: [agent-measurement](https://github.com/tiagovilasboas/agent-measurement) · [awesome-agentic-ai](https://github.com/tiagovilasboas/awesome-agentic-ai) · [kiro-playbook](https://github.com/tiagovilasboas/kiro-playbook)
 
 ## License
 
