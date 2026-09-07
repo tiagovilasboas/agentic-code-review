@@ -28,6 +28,14 @@ Maintainer: [Tiago Montanha](https://github.com/tiagovilasboas) · Staff · AppS
 2. Run [`skills/authz-idor.md`](skills/authz-idor.md) on a PR diff
 3. Enforce [`guardrails/evidence-required.md`](guardrails/evidence-required.md)
 
+Agent do/don't (any harness): [`AGENTS.md`](AGENTS.md).
+
+---
+
+## Contributing
+
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for how to add a skill or runbook, the evidence contract (`path:line` or silence), and the pull-request checklist. Use the **Add a skill** issue template to propose new skills.
+
 ---
 
 ## Inspired by
