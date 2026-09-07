@@ -19,15 +19,22 @@ Maintainer: [Tiago Montanha](https://github.com/tiagovilasboas) · Staff · AppS
 | `skills/` | Review prompts/skills |
 | `runbooks/` | Human + agent flow |
 | `guardrails/` | Fail-closed rules |
-| `examples/` | Sample PR diff + expected report (dry-run) |
+| `examples/` | Sample PR diffs + expected reports (dry-run, not prod) |
 
 ---
 
 ## Start in 15 minutes
 
-1. Read [`runbooks/00-overview.md`](runbooks/00-overview.md)
-2. Dry-run (optional): apply skills to [`examples/sample-pr.diff`](examples/sample-pr.diff) and compare [`examples/sample-report.md`](examples/sample-report.md)
-3. Run [`skills/authz-idor.md`](skills/authz-idor.md) on a real PR diff (then optionally [`skills/secrets-config.md`](skills/secrets-config.md))
+1. Read [`runbooks/00-overview.md`](runbooks/00-overview.md) (when-to-load table)
+2. Dry-run (optional):
+   - Stage 1 (AuthZ + secrets): [`examples/sample-pr.diff`](examples/sample-pr.diff) → [`examples/sample-report.md`](examples/sample-report.md)
+   - Stage 2 (XSS sink): [`examples/xss-sink.sample.diff`](examples/xss-sink.sample.diff) → [`examples/xss-sink.sample-report.md`](examples/xss-sink.sample-report.md)
+3. Pick **one** skill that matches the diff — not the whole pack:
+   - [`skills/authz-idor.md`](skills/authz-idor.md)
+   - [`skills/secrets-config.md`](skills/secrets-config.md)
+   - [`skills/xss-html.md`](skills/xss-html.md)
+   - [`skills/ssrf-egress.md`](skills/ssrf-egress.md)
+   - [`skills/supply-chain.md`](skills/supply-chain.md)
 4. Enforce [`guardrails/evidence-required.md`](guardrails/evidence-required.md)
 
 Agent do/don't (any harness): [`AGENTS.md`](AGENTS.md).
