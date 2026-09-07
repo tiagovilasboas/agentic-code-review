@@ -9,6 +9,7 @@ This repository is an **actionable kit** for agentic pull-request review:
 | `skills/` | What the agent checks |
 | `runbooks/` | When a human must step in |
 | `guardrails/` | What must never be skipped |
+| `examples/` | Sample PR diff + expected report (dry-run only) |
 
 It is **not** a scanner SaaS, a dump of 50 prompts, or an “AI review” that invents findings.
 
@@ -154,11 +155,15 @@ Then:
 # 1. Read the human + agent flow
 #    runbooks/00-overview.md
 #
-# 2. Point your agent at one skill and a PR diff
+# 2. Optional dry-run on the sample diff
+#    examples/sample-pr.diff
+#    examples/sample-report.md
+#
+# 3. Point your agent at one skill and a PR diff
 #    skills/authz-idor.md
 #    skills/secrets-config.md
 #
-# 3. Enforce the evidence guardrail before you trust the report
+# 4. Enforce the evidence guardrail before you trust the report
 #    guardrails/evidence-required.md
 ```
 
@@ -184,7 +189,7 @@ insufficient evidence — identifier usage is outside the provided diff
 ## Pull request checklist
 
 - [ ] English title and body (`Why` / `What` / `How to verify`)
-- [ ] Only the paths that belong to the change (`skills/`, `runbooks/`, `guardrails/`, or hygiene docs)
+- [ ] Only the paths that belong to the change (`skills/`, `runbooks/`, `guardrails/`, `examples/`, or hygiene docs)
 - [ ] New skill/runbook follows the templates above
 - [ ] Findings contract still requires `path:line`
 - [ ] No exploit PoC, no new vendor lock-in, no agent-merge instructions
@@ -194,4 +199,4 @@ insufficient evidence — identifier usage is outside the provided diff
 
 PRs are reviewed as Staff AppSec artifacts: problem first, evidence second, agency last. Expect questions of the form “where is the line?” and “why does the agent stop here?”.
 
-Stage 0 (this hygiene) does not add sample diffs or extra skills. Those belong in a later stage.
+Stage 1 added denser skills (`authz-idor`, `secrets-config`), a denser overview runbook, and `examples/` (`sample-pr.diff`, `sample-report.md`) for dry-runs. Further stages may add more skills; keep examples free of exploit PoCs.
