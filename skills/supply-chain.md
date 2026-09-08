@@ -18,6 +18,19 @@ Catch install-time and lockfile surprises in a PR: new registries, install scrip
 
 A lockfile that only bumps a known package to a specific version, with `resolved` on the usual registry and an integrity hash, is usually **not** a finding. Say that.
 
+## Anti-patterns (look-alikes)
+
+Hunt is the signal. This table is the trap: do not promote a look-alike to a CVE, and do not drop a real install-path FAIL.
+
+| In the hunk | Usually **not** a finding | Usually **FAIL** (cite `path:line`) |
+|---|---|---|
+| Lockfile only; `resolved` is npmjs (or your known mirror); `integrity` present | Version pin / bump. Optional note: “lockfile only, expected registry.” | `resolved` host changed, or `integrity` removed |
+| `package.json` uses `^` / `~` and the lockfile is committed | Manifest range is normal; the lockfile is the pin | Range widened to `*` / `latest` **and** lockfile dropped or CI runs bare `npm install` |
+| `uses: actions/checkout@v4` (first-party GitHub) | Accept the tag if that is house policy — say so | `uses: third-party/action@v1` (moving tag) on `pull_request` or with secrets |
+| `postinstall` that only runs a file **in this repo** and the script is in the hunk | LOW / explain at `path:line` if it is a local compile | New `postinstall` / `preinstall` you cannot explain; `curl \| sh` / unsigned remote installer |
+| `.npmrc` `registry=https://registry.npmjs.org/` | Expected host | New host, extra-index, or `always-auth` aimed at a surprise registry |
+| “This package had a CVE last year” | — | **Never** a finding by itself. No version in the diff → `insufficient evidence`. Do not invent CWE-1104. |
+
 ## Required evidence
 Every finding: **`path:line`** of the manifest, lockfile field, workflow step, or installer line.
 
@@ -53,3 +66,5 @@ This skill does **not** prove the new version is safe. It proves the *install pa
 - [OWASP Top 10:2021 A06 Vulnerable and Outdated Components](https://owasp.org/Top10/2021/A06_2021-Vulnerable_and_Outdated_Components/)
 - [OWASP Top 10:2021 A08 Software and Data Integrity Failures](https://owasp.org/Top10/2021/A08_2021-Software_and_Data_Integrity_Failures/)
 - [CWE-1104](https://cwe.mitre.org/data/definitions/1104.html)
+
+Worked fixture: [`examples/supply-chain.sample.diff`](../examples/supply-chain.sample.diff) → [`examples/supply-chain.sample-report.md`](../examples/supply-chain.sample-report.md).
