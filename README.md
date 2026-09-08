@@ -48,9 +48,9 @@ Agent do/don't (any harness): [`AGENTS.md`](AGENTS.md).
 
 ## Related
 
-- [agent-measurement](https://github.com/tiagovilasboas/agent-measurement)
-- [awesome-agentic-ai](https://github.com/tiagovilasboas/awesome-agentic-ai)
-- [kiro-playbook](https://github.com/tiagovilasboas/kiro-playbook)
+- [agent-measurement](https://github.com/tiagovilasboas/agent-measurement) — Eval harness (suites, named metrics, reports). Measures agents; not this review kit.
+- [awesome-agentic-ai](https://github.com/tiagovilasboas/awesome-agentic-ai) — Curated short list (MCP, harnesses, HITL/ops, agent security). Decision filter, not a skill pack.
+- [kiro-playbook](https://github.com/tiagovilasboas/kiro-playbook) — IDE steerings, skills, and hooks for a squad. Starting point, not harness-agnostic AppSec review.
 
 ## Contributing
 
