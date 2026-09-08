@@ -158,8 +158,8 @@ Then:
 # 2. Optional dry-run — index in examples/README.md
 #    examples/sample-pr.diff + examples/sample-report.md
 #    examples/xss-sink.sample.diff + examples/xss-sink.sample-report.md
+#    examples/ssrf-egress.sample.diff + examples/ssrf-egress.sample-report.md
 #    examples/supply-chain.sample.diff + examples/supply-chain.sample-report.md
-#    ssrf-egress has no fixture; use a real PR
 #
 # 3. Point your agent at one skill and a PR diff
 #    skills/authz-idor.md
@@ -204,4 +204,4 @@ insufficient evidence — identifier usage is outside the provided diff
 
 PRs are reviewed as Staff AppSec artifacts: problem first, evidence second, agency last. Expect questions of the form “where is the line?” and “why does the agent stop here?”.
 
-Stage 1 added denser skills (`authz-idor`, `secrets-config`), a denser overview runbook, and `examples/` (`sample-pr.diff`, `sample-report.md`) for dry-runs. Stage 2 added `xss-html`, `ssrf-egress`, `supply-chain`, and `examples/xss-sink.sample.*`. Stage 3 densified `supply-chain` (anti-pattern table) and added `examples/supply-chain.sample.*` plus `examples/README.md`. The fixture index is [`examples/README.md`](examples/README.md) (one row per skill). Prefer link polish over new skills unless a clear hole remains. Keep examples free of exploit PoCs.
+Stage 1 added denser skills (`authz-idor`, `secrets-config`), a denser overview runbook, and `examples/` (`sample-pr.diff`, `sample-report.md`) for dry-runs. Stage 2 added `xss-html`, `ssrf-egress`, `supply-chain`, and `examples/xss-sink.sample.*`. Stage 3 densified `supply-chain` (anti-pattern table) and added `examples/supply-chain.sample.*` plus `examples/README.md`. Stage 6 added `examples/ssrf-egress.sample.*` so every skill has a fixture. The fixture index is [`examples/README.md`](examples/README.md) (one row per skill). Prefer link polish over new skills unless a clear hole remains. Keep examples free of exploit PoCs.

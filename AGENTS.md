@@ -17,6 +17,7 @@ Optional dry-runs — index: [`examples/README.md`](examples/README.md)
 
 - AuthZ + secrets: [`examples/sample-pr.diff`](examples/sample-pr.diff) vs [`examples/sample-report.md`](examples/sample-report.md)
 - XSS sink: [`examples/xss-sink.sample.diff`](examples/xss-sink.sample.diff) vs [`examples/xss-sink.sample-report.md`](examples/xss-sink.sample-report.md)
+- SSRF egress: [`examples/ssrf-egress.sample.diff`](examples/ssrf-egress.sample.diff) vs [`examples/ssrf-egress.sample-report.md`](examples/ssrf-egress.sample-report.md)
 - Supply chain: [`examples/supply-chain.sample.diff`](examples/supply-chain.sample.diff) vs [`examples/supply-chain.sample-report.md`](examples/supply-chain.sample-report.md)
 
 ## Do
