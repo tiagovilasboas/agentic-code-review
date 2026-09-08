@@ -156,8 +156,10 @@ Then:
 #    runbooks/00-overview.md
 #
 # 2. Optional dry-run on a sample diff
+#    examples/README.md (fixture index)
 #    examples/sample-pr.diff + examples/sample-report.md
 #    examples/xss-sink.sample.diff + examples/xss-sink.sample-report.md
+#    examples/supply-chain.sample.diff + examples/supply-chain.sample-report.md
 #
 # 3. Point your agent at one skill and a PR diff
 #    skills/authz-idor.md
@@ -202,4 +204,4 @@ insufficient evidence — identifier usage is outside the provided diff
 
 PRs are reviewed as Staff AppSec artifacts: problem first, evidence second, agency last. Expect questions of the form “where is the line?” and “why does the agent stop here?”.
 
-Stage 1 added denser skills (`authz-idor`, `secrets-config`), a denser overview runbook, and `examples/` (`sample-pr.diff`, `sample-report.md`) for dry-runs. Stage 2 added `xss-html`, `ssrf-egress`, `supply-chain`, and `examples/xss-sink.sample.*`. Further stages may add more skills; keep examples free of exploit PoCs.
+Stage 1 added denser skills (`authz-idor`, `secrets-config`), a denser overview runbook, and `examples/` (`sample-pr.diff`, `sample-report.md`) for dry-runs. Stage 2 added `xss-html`, `ssrf-egress`, `supply-chain`, and `examples/xss-sink.sample.*`. Stage 3 densified `supply-chain` (anti-pattern table) and added `examples/supply-chain.sample.*` plus `examples/README.md`. Further stages may add more skills; keep examples free of exploit PoCs.
