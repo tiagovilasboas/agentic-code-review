@@ -67,4 +67,4 @@ This skill does **not** prove the new version is safe. It proves the *install pa
 - [OWASP Top 10:2021 A08 Software and Data Integrity Failures](https://owasp.org/Top10/2021/A08_2021-Software_and_Data_Integrity_Failures/)
 - [CWE-1104](https://cwe.mitre.org/data/definitions/1104.html)
 
-Worked fixture: [`examples/supply-chain.sample.diff`](../examples/supply-chain.sample.diff) → [`examples/supply-chain.sample-report.md`](../examples/supply-chain.sample-report.md).
+Worked fixture: [`examples/supply-chain.sample.diff`](../examples/supply-chain.sample.diff) → [`examples/supply-chain.sample-report.md`](../examples/supply-chain.sample-report.md). Index: [`examples/README.md`](../examples/README.md).

@@ -23,9 +23,9 @@ Maintainer: [Tiago Montanha](https://github.com/tiagovilasboas) · Staff · AppS
 
 1. Read [`runbooks/00-overview.md`](runbooks/00-overview.md) (when-to-load table)
 2. Dry-run (optional) — index: [`examples/README.md`](examples/README.md)
-   - Stage 1 (AuthZ + secrets): [`examples/sample-pr.diff`](examples/sample-pr.diff) → [`examples/sample-report.md`](examples/sample-report.md)
-   - Stage 2 (XSS sink): [`examples/xss-sink.sample.diff`](examples/xss-sink.sample.diff) → [`examples/xss-sink.sample-report.md`](examples/xss-sink.sample-report.md)
-   - Stage 3 (supply chain): [`examples/supply-chain.sample.diff`](examples/supply-chain.sample.diff) → [`examples/supply-chain.sample-report.md`](examples/supply-chain.sample-report.md)
+   - AuthZ + secrets: [`examples/sample-pr.diff`](examples/sample-pr.diff) → [`examples/sample-report.md`](examples/sample-report.md)
+   - XSS sink: [`examples/xss-sink.sample.diff`](examples/xss-sink.sample.diff) → [`examples/xss-sink.sample-report.md`](examples/xss-sink.sample-report.md)
+   - Supply chain: [`examples/supply-chain.sample.diff`](examples/supply-chain.sample.diff) → [`examples/supply-chain.sample-report.md`](examples/supply-chain.sample-report.md)
 3. Pick **one** skill that matches the diff — not the whole pack:
    - [`skills/authz-idor.md`](skills/authz-idor.md)
    - [`skills/secrets-config.md`](skills/secrets-config.md)
@@ -48,9 +48,13 @@ Agent do/don't (any harness): [`AGENTS.md`](AGENTS.md).
 
 ## Related
 
-- [agent-measurement](https://github.com/tiagovilasboas/agent-measurement) — Eval harness (suites, named metrics, reports). Measures agents; not this review kit.
-- [awesome-agentic-ai](https://github.com/tiagovilasboas/awesome-agentic-ai) — Curated short list (MCP, harnesses, HITL/ops, agent security). Decision filter, not a skill pack.
-- [kiro-playbook](https://github.com/tiagovilasboas/kiro-playbook) — IDE steerings, skills, and hooks for a squad. Starting point, not harness-agnostic AppSec review.
+This kit is AppSec PR review: skills, runbooks, `path:line` or silence. Siblings are scoped kits — not this pack.
+
+- [awesome-agentic-ai](https://github.com/tiagovilasboas/awesome-agentic-ai) — Curated short list: MCP, harnesses, agent security. Decision filter, not a skill pack.
+- [agent-measurement](https://github.com/tiagovilasboas/agent-measurement) — Eval harness: suites, named metrics, markdown reports. Measure; do not train.
+- [jarvis-architecture](https://github.com/tiagovilasboas/jarvis-architecture) — Reference architecture: brain · workers · ops. Swap the host, keep the domain.
+- [kiro-crew](https://github.com/tiagovilasboas/kiro-crew) — Crew pattern: Planner → Implementer → Reviewer → Ops. Kiro is the example host.
+- [grok-bot-architecture](https://github.com/tiagovilasboas/grok-bot-architecture) — Desktop assistant OS: chief-of-staff, specialists, shared computer, connectors.
 
 ## Contributing
 

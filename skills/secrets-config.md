@@ -35,3 +35,5 @@ no evidence-based findings
 ```
 
 Severity: `CRITICAL` for live-looking credentials in source; `HIGH`/`MEDIUM` for misconfiguration that widens exposure; `LOW` when the context is unclear.
+
+Worked fixture: [`examples/sample-pr.diff`](../examples/sample-pr.diff) → [`examples/sample-report.md`](../examples/sample-report.md) (pass 2). Index: [`examples/README.md`](../examples/README.md).
