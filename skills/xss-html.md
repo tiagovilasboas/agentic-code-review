@@ -50,4 +50,4 @@ Regex-strip of `<script>` is not a pass. Context-wrong encoding (HTML-encode int
 - [OWASP XSS Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)
 - [CWE-79](https://cwe.mitre.org/data/definitions/79.html)
 
-Worked fixture: [`examples/xss-sink.sample.diff`](../examples/xss-sink.sample.diff) → [`examples/xss-sink.sample-report.md`](../examples/xss-sink.sample-report.md).
+Worked fixture: [`examples/xss-sink.sample.diff`](../examples/xss-sink.sample.diff) → [`examples/xss-sink.sample-report.md`](../examples/xss-sink.sample-report.md). Index: [`examples/README.md`](../examples/README.md).

@@ -10,11 +10,11 @@ Ship a useful security/quality pass with an agent without inventing findings. Ti
 | Skill to run | Yes | One skill per pass — pick from the when-to-load table |
 | Guardrail | Always | [`evidence-required`](../guardrails/evidence-required.md) |
 
-Dry-run without a real PR (index: [`examples/README.md`](../examples/README.md)):
+Dry-run without a real PR — index: [`examples/README.md`](../examples/README.md)
 
-- Stage 1 (AuthZ + secrets): [`examples/sample-pr.diff`](../examples/sample-pr.diff) → [`examples/sample-report.md`](../examples/sample-report.md)
-- Stage 2 (XSS sink): [`examples/xss-sink.sample.diff`](../examples/xss-sink.sample.diff) → [`examples/xss-sink.sample-report.md`](../examples/xss-sink.sample-report.md)
-- Stage 3 (supply chain): [`examples/supply-chain.sample.diff`](../examples/supply-chain.sample.diff) → [`examples/supply-chain.sample-report.md`](../examples/supply-chain.sample-report.md)
+- AuthZ + secrets: [`examples/sample-pr.diff`](../examples/sample-pr.diff) → [`examples/sample-report.md`](../examples/sample-report.md)
+- XSS sink: [`examples/xss-sink.sample.diff`](../examples/xss-sink.sample.diff) → [`examples/xss-sink.sample-report.md`](../examples/xss-sink.sample-report.md)
+- Supply chain: [`examples/supply-chain.sample.diff`](../examples/supply-chain.sample.diff) → [`examples/supply-chain.sample-report.md`](../examples/supply-chain.sample-report.md)
 
 ## Flow
 
