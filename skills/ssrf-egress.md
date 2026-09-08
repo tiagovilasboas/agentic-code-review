@@ -17,6 +17,16 @@ Find the server fetching a URL or host the caller can influence — webhook, pre
 
 SSRF is not HTTP-only. If the diff opens `file://` or a non-HTTP scheme from input, that is in scope.
 
+## Anti-patterns (look-alikes)
+
+Hunt is the signal. This table is the trap: do not promote a look-alike to IMDS, and do not drop a real open-fetch FAIL.
+
+| In the hunk | Usually **not** a finding | Usually **FAIL** (cite `path:line`) |
+|---|---|---|
+| Hardcoded `fetch("https://status.example/health")` | Fixed host. Input is not the URL | URL/host from query, body, header, or DB |
+| `if (url.includes("localhost"))` denylist | — | Denylist-only. Cite the fetch line |
+| “this could hit IMDS” | No controllable URL in the diff → `insufficient evidence` | Controllable URL with no scheme+host allowlist. Cite the fetch. Do not invent metadata theft |
+
 ## Required evidence
 Every finding: **`path:line`** of the outbound call (or the URL constructor that feeds it).
 
@@ -53,4 +63,4 @@ You cannot see VPC egress from a PR. Do not claim “network layer is open” or
 - [OWASP Top 10:2021 A10 SSRF](https://owasp.org/Top10/2021/A10_2021-Server-Side_Request_Forgery_%28SSRF%29/)
 - [CWE-918](https://cwe.mitre.org/data/definitions/918.html)
 
-No fixture. Use a real PR that fetches a caller-influenced URL. Do not invent a sink. Index: [`examples/README.md`](../examples/README.md).
+Worked fixture: [`examples/ssrf-egress.sample.diff`](../examples/ssrf-egress.sample.diff) → [`examples/ssrf-egress.sample-report.md`](../examples/ssrf-egress.sample-report.md). Index: [`examples/README.md`](../examples/README.md).
