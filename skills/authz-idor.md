@@ -55,4 +55,4 @@ insufficient evidence — ownership middleware not visible in the provided diff
 
 Severity: `CRITICAL` / `HIGH` / `MEDIUM` / `LOW` (GitHub security labels). Prefer `HIGH` for missing object-level checks on read/write of user data; use `LOW` or insufficient evidence when the impact is unclear.
 
-Worked fixture: [`examples/sample-pr.diff`](../examples/sample-pr.diff) → [`examples/sample-report.md`](../examples/sample-report.md) (pass 1).
+Worked fixture: [`examples/sample-pr.diff`](../examples/sample-pr.diff) → [`examples/sample-report.md`](../examples/sample-report.md) (pass 1). Index: [`examples/README.md`](../examples/README.md).

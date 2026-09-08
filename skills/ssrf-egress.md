@@ -52,3 +52,5 @@ You cannot see VPC egress from a PR. Do not claim “network layer is open” or
 - [OWASP SSRF Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html)
 - [OWASP Top 10:2021 A10 SSRF](https://owasp.org/Top10/2021/A10_2021-Server-Side_Request_Forgery_%28SSRF%29/)
 - [CWE-918](https://cwe.mitre.org/data/definitions/918.html)
+
+No fixture. Use a real PR that fetches a caller-influenced URL. Do not invent a sink. Index: [`examples/README.md`](../examples/README.md).
