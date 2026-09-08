@@ -13,10 +13,11 @@ Harness-agnostic layout for any agent that reviews a pull-request diff with this
 
 Start with [`runbooks/00-overview.md`](runbooks/00-overview.md). Enforce [`guardrails/evidence-required.md`](guardrails/evidence-required.md) on every finding.
 
-Optional dry-runs:
+Optional dry-runs (index: [`examples/README.md`](examples/README.md)):
 
 - Stage 1 (AuthZ + secrets): [`examples/sample-pr.diff`](examples/sample-pr.diff) vs [`examples/sample-report.md`](examples/sample-report.md)
 - Stage 2 (XSS sink): [`examples/xss-sink.sample.diff`](examples/xss-sink.sample.diff) vs [`examples/xss-sink.sample-report.md`](examples/xss-sink.sample-report.md)
+- Stage 3 (supply chain): [`examples/supply-chain.sample.diff`](examples/supply-chain.sample.diff) vs [`examples/supply-chain.sample-report.md`](examples/supply-chain.sample-report.md)
 
 ## Do
 

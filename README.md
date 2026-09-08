@@ -22,9 +22,10 @@ Maintainer: [Tiago Montanha](https://github.com/tiagovilasboas) · Staff · AppS
 ## Start in 15 minutes
 
 1. Read [`runbooks/00-overview.md`](runbooks/00-overview.md) (when-to-load table)
-2. Dry-run (optional):
+2. Dry-run (optional) — index: [`examples/README.md`](examples/README.md)
    - Stage 1 (AuthZ + secrets): [`examples/sample-pr.diff`](examples/sample-pr.diff) → [`examples/sample-report.md`](examples/sample-report.md)
    - Stage 2 (XSS sink): [`examples/xss-sink.sample.diff`](examples/xss-sink.sample.diff) → [`examples/xss-sink.sample-report.md`](examples/xss-sink.sample-report.md)
+   - Stage 3 (supply chain): [`examples/supply-chain.sample.diff`](examples/supply-chain.sample.diff) → [`examples/supply-chain.sample-report.md`](examples/supply-chain.sample-report.md)
 3. Pick **one** skill that matches the diff — not the whole pack:
    - [`skills/authz-idor.md`](skills/authz-idor.md)
    - [`skills/secrets-config.md`](skills/secrets-config.md)
