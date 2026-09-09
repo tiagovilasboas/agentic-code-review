@@ -10,6 +10,7 @@ This repository is an **actionable kit** for agentic pull-request review:
 | `runbooks/` | When a human must step in |
 | `guardrails/` | What must never be skipped |
 | `examples/` | Sample PR diff + expected report (dry-run only) |
+| `scripts/` | Fixture pairing check (CI) |
 
 It is **not** a scanner SaaS, a dump of 50 prompts, or an “AI review” that invents findings.
 
@@ -155,7 +156,8 @@ Then:
 # 1. Read the human + agent flow
 #    runbooks/00-overview.md
 #
-# 2. Optional dry-run — index in examples/README.md
+# 2. Optional dry-run. Cookbook: runbooks/01-dry-run-cookbook.md
+#    Index: examples/README.md
 #    examples/sample-pr.diff + examples/sample-report.md
 #    examples/xss-sink.sample.diff + examples/xss-sink.sample-report.md
 #    examples/ssrf-egress.sample.diff + examples/ssrf-egress.sample-report.md
@@ -170,6 +172,9 @@ Then:
 #
 # 4. Enforce the evidence guardrail before you trust the report
 #    guardrails/evidence-required.md
+#
+# 5. Confirm fixture pairs (same check as CI)
+#    bash scripts/check-fixture-pairs.sh
 ```
 
 A finding line should look like a code-scanning annotation, not a paragraph:
@@ -181,7 +186,29 @@ HIGH | src/api/orders.ts:142 | object id from path used without ownership check
 If the agent cannot cite a line:
 
 ```text
-insufficient evidence — identifier usage is outside the provided diff
+insufficient evidence: identifier usage is outside the provided diff
+```
+
+## Fixture pairing (CI)
+
+Every `examples/*.diff` must have a paired report. CI runs `scripts/check-fixture-pairs.sh` on pull requests.
+
+Naming:
+
+- `name.sample.diff` pairs with `name.sample-report.md`
+- `sample-pr.diff` pairs with `sample-report.md` (Stage 1 names)
+
+The check fails when:
+
+- a diff has no report (or a `*report.md` has no paired diff)
+- a finding line (`SEVERITY | ...`) lacks `path:line`
+- a cited `path:line` is not inside a hunk of the paired diff
+- the report has neither finding evidence nor an explicit `insufficient evidence` / `no evidence-based findings` marker
+
+How to run a fixture pass: [`runbooks/01-dry-run-cookbook.md`](runbooks/01-dry-run-cookbook.md).
+
+```bash
+bash scripts/check-fixture-pairs.sh
 ```
 
 ## Language and style
@@ -194,9 +221,10 @@ insufficient evidence — identifier usage is outside the provided diff
 ## Pull request checklist
 
 - [ ] English title and body (`Why` / `What` / `How to verify`)
-- [ ] Only the paths that belong to the change (`skills/`, `runbooks/`, `guardrails/`, `examples/`, or hygiene docs)
+- [ ] Only the paths that belong to the change (`skills/`, `runbooks/`, `guardrails/`, `examples/`, `scripts/`, or hygiene docs)
 - [ ] New skill/runbook follows the templates above
 - [ ] Findings contract still requires `path:line`
+- [ ] New or changed fixtures still pair (diff + report) and pass `bash scripts/check-fixture-pairs.sh`
 - [ ] No exploit PoC, no new vendor lock-in, no agent-merge instructions
 - [ ] README layout table still accurate if you added a path
 
@@ -204,4 +232,4 @@ insufficient evidence — identifier usage is outside the provided diff
 
 PRs are reviewed as Staff AppSec artifacts: problem first, evidence second, agency last. Expect questions of the form “where is the line?” and “why does the agent stop here?”.
 
-Stage 1 added denser skills (`authz-idor`, `secrets-config`), a denser overview runbook, and `examples/` (`sample-pr.diff`, `sample-report.md`) for dry-runs. Stage 2 added `xss-html`, `ssrf-egress`, `supply-chain`, and `examples/xss-sink.sample.*`. Stage 3 densified `supply-chain` (anti-pattern table) and added `examples/supply-chain.sample.*` plus `examples/README.md`. Stage 6 added `examples/ssrf-egress.sample.*` so every skill has a fixture. The fixture index is [`examples/README.md`](examples/README.md) (one row per skill). Prefer link polish over new skills unless a clear hole remains. Keep examples free of exploit PoCs.
+Stage 1 added denser skills (`authz-idor`, `secrets-config`), a denser overview runbook, and `examples/` (`sample-pr.diff`, `sample-report.md`) for dry-runs. Stage 2 added `xss-html`, `ssrf-egress`, `supply-chain`, and `examples/xss-sink.sample.*`. Stage 3 densified `supply-chain` (anti-pattern table) and added `examples/supply-chain.sample.*` plus `examples/README.md`. Stage 6 added `examples/ssrf-egress.sample.*` so every skill has a fixture. Stage 7 added fixture-pairing CI (`scripts/check-fixture-pairs.sh`), the dry-run cookbook (`runbooks/01-dry-run-cookbook.md`), and a thicker evidence guardrail (good/bad examples, hunk-scoped `path:line`). The fixture index is [`examples/README.md`](examples/README.md) (one row per skill). Prefer link polish over new skills unless a clear hole remains. Keep examples free of exploit PoCs.
