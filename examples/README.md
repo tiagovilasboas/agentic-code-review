@@ -1,8 +1,8 @@
-# Examples — dry-run fixtures
+# Examples: dry-run fixtures
 
 Synthetic diffs and the report shape this kit expects. AppSec evidence (`path:line`). Not incidents. No exploit PoCs.
 
-Load **one** skill per pass. Compare `SEVERITY | file:line | why` to the report. Guardrail: [`evidence-required`](../guardrails/evidence-required.md). Index is one row per skill.
+Load **one** skill per pass. Compare `SEVERITY | file:line | why` to the report. How to run a pass: [`runbooks/01-dry-run-cookbook.md`](../runbooks/01-dry-run-cookbook.md). Guardrail: [`evidence-required`](../guardrails/evidence-required.md). CI pairing: [`scripts/check-fixture-pairs.sh`](../scripts/check-fixture-pairs.sh). Index is one row per skill.
 
 | Fixture | Skill | What it exercises |
 |---|---|---|

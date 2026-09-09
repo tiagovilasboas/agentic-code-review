@@ -13,7 +13,7 @@ Harness-agnostic layout for any agent that reviews a pull-request diff with this
 
 Start with [`runbooks/00-overview.md`](runbooks/00-overview.md). Enforce [`guardrails/evidence-required.md`](guardrails/evidence-required.md) on every finding.
 
-Optional dry-runs — index: [`examples/README.md`](examples/README.md)
+Optional dry-runs. Cookbook: [`runbooks/01-dry-run-cookbook.md`](runbooks/01-dry-run-cookbook.md). Index: [`examples/README.md`](examples/README.md)
 
 - AuthZ + secrets: [`examples/sample-pr.diff`](examples/sample-pr.diff) vs [`examples/sample-report.md`](examples/sample-report.md)
 - XSS sink: [`examples/xss-sink.sample.diff`](examples/xss-sink.sample.diff) vs [`examples/xss-sink.sample-report.md`](examples/xss-sink.sample-report.md)
@@ -23,7 +23,7 @@ Optional dry-runs — index: [`examples/README.md`](examples/README.md)
 ## Do
 
 - Work from the **provided diff**, not imagined repo context
-- Run **one skill** per pass — pick from the runbook when-to-load table (`authz-idor`, `secrets-config`, `xss-html`, `ssrf-egress`, `supply-chain`)
+- Run **one skill** per pass. Pick from the runbook when-to-load table (`authz-idor`, `secrets-config`, `xss-html`, `ssrf-egress`, `supply-chain`)
 - Report `SEVERITY | file:line | why` (GitHub code-scanning style: location + nature of the problem)
 - Say **insufficient evidence** when the sink or check is outside the diff
 - Stop for human decision (merge / request changes)

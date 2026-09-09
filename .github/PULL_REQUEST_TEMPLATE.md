@@ -17,8 +17,12 @@ What changed, and what is explicitly **out of scope**?
 Commands, paths, and expected output. Reviewers should be able to re-run this without guessing.
 
 ```bash
-# Example: open the new skill and apply it to a PR diff
-# Then confirm every finding has file:line or "insufficient evidence"
+# Fixture PRs: pairing + path:line evidence (same as CI)
+bash scripts/check-fixture-pairs.sh
+
+# Skill / runbook PRs: apply one skill to a diff, then confirm
+# every finding has file:line or "insufficient evidence"
+# Cookbook: runbooks/01-dry-run-cookbook.md
 ```
 
 ## Evidence contract

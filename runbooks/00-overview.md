@@ -10,7 +10,7 @@ Ship a useful security/quality pass with an agent without inventing findings. Ti
 | Skill to run | Yes | One skill per pass — pick from the when-to-load table |
 | Guardrail | Always | [`evidence-required`](../guardrails/evidence-required.md) |
 
-Dry-run without a real PR — index: [`examples/README.md`](../examples/README.md)
+Dry-run without a real PR. Cookbook: [`01-dry-run-cookbook.md`](01-dry-run-cookbook.md). Index: [`examples/README.md`](../examples/README.md)
 
 - AuthZ + secrets: [`examples/sample-pr.diff`](../examples/sample-pr.diff) → [`examples/sample-report.md`](../examples/sample-report.md)
 - XSS sink: [`examples/xss-sink.sample.diff`](../examples/xss-sink.sample.diff) → [`examples/xss-sink.sample-report.md`](../examples/xss-sink.sample-report.md)
