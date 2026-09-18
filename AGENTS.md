@@ -11,7 +11,10 @@ Harness-agnostic layout for any agent that reviews a pull-request diff with this
 | `guardrails/` | What you must never skip |
 | `examples/` | Sample diff + report shape for dry-runs |
 
-Start with [`runbooks/00-overview.md`](runbooks/00-overview.md). Enforce [`guardrails/evidence-required.md`](guardrails/evidence-required.md) on every finding.
+Start with [`runbooks/00-overview.md`](runbooks/00-overview.md). Enforce both guardrails on every review:
+
+- [`guardrails/evidence-required.md`](guardrails/evidence-required.md): `path:line` or silence
+- [`guardrails/write-approval.md`](guardrails/write-approval.md): human approves all writes
 
 Optional dry-runs. Cookbook: [`runbooks/01-dry-run-cookbook.md`](runbooks/01-dry-run-cookbook.md). Index: [`examples/README.md`](examples/README.md)
 

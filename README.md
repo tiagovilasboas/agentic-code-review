@@ -1,5 +1,9 @@
 # Agentic Code Review
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![Guardrails](https://img.shields.io/badge/guardrails-fail--closed-critical.svg)](guardrails/)
+
 Actionable kit for agentic PR review: **skills**, **runbooks**, and fail-closed **guardrails**. Findings need AppSec evidence (`path:line`).
 
 Kit acionável de review de PR com agents: skills, runbooks e guardrails. Achado só com evidência AppSec (`path:line`).
@@ -14,7 +18,7 @@ Maintainer: [Tiago Montanha](https://github.com/tiagovilasboas) · Staff · AppS
 |---|---|
 | `skills/` | Review prompts/skills |
 | `runbooks/` | Human + agent flow |
-| `guardrails/` | Fail-closed rules |
+| `guardrails/` | Fail-closed rules (`evidence-required`, `write-approval`) |
 | `examples/` | Sample PR diffs + expected reports (dry-run, not prod) |
 | `scripts/` | Fixture pairing check (CI) |
 
@@ -34,7 +38,9 @@ Maintainer: [Tiago Montanha](https://github.com/tiagovilasboas) · Staff · AppS
    - [`skills/xss-html.md`](skills/xss-html.md)
    - [`skills/ssrf-egress.md`](skills/ssrf-egress.md)
    - [`skills/supply-chain.md`](skills/supply-chain.md)
-4. Enforce [`guardrails/evidence-required.md`](guardrails/evidence-required.md)
+4. Enforce guardrails (fail-closed):
+   - [`guardrails/evidence-required.md`](guardrails/evidence-required.md): `path:line` or silence
+   - [`guardrails/write-approval.md`](guardrails/write-approval.md): human approves all writes
 
 Agent do/don't (any harness): [`AGENTS.md`](AGENTS.md).
 
