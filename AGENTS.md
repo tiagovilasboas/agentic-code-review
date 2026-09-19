@@ -10,6 +10,7 @@ Harness-agnostic layout for any agent that reviews a pull-request diff with this
 | `runbooks/` | When a human must step in |
 | `guardrails/` | What you must never skip |
 | `examples/` | Sample diff + report shape for dry-runs |
+| `bin/`, `src/` | Deterministic CLI (`npm run review -- <diff>`) |
 
 Start with [`runbooks/00-overview.md`](runbooks/00-overview.md). Enforce both guardrails on every review:
 
@@ -26,6 +27,7 @@ Optional dry-runs. Cookbook: [`runbooks/01-dry-run-cookbook.md`](runbooks/01-dry
 ## Do
 
 - Work from the **provided diff**, not imagined repo context
+- Or run the local CLI on that diff: `npm run review -- <path.diff>` (rule engine, no LLM)
 - Run **one skill** per pass. Pick from the runbook when-to-load table (`authz-idor`, `secrets-config`, `xss-html`, `ssrf-egress`, `supply-chain`)
 - Report `SEVERITY | file:line | why` (GitHub code-scanning style: location + nature of the problem)
 - Say **insufficient evidence** when the sink or check is outside the diff

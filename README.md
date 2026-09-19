@@ -12,6 +12,26 @@ Maintainer: [Tiago Montanha](https://github.com/tiagovilasboas) · Staff · AppS
 
 ---
 
+## Run it
+
+```bash
+npm run review -- examples/xss-sink.sample.diff
+```
+
+```
+Finding: DOM XSS
+Evidence: web/src/components/CommentBody.tsx:18
+CWE: CWE-79
+Severity: HIGH
+Action: BLOCK
+```
+
+Deterministic rules on the unified diff — no LLM. Exit `1` when any finding is `BLOCK`; `0` when clean or insufficient evidence only.
+
+Rode o CLI no fixture; o output é a evidência (`path:line` + CWE).
+
+---
+
 ## Layout
 
 | Path | Role |
@@ -21,6 +41,8 @@ Maintainer: [Tiago Montanha](https://github.com/tiagovilasboas) · Staff · AppS
 | `guardrails/` | Fail-closed rules (`evidence-required`, `write-approval`) |
 | `examples/` | Sample PR diffs + expected reports (dry-run, not prod) |
 | `scripts/` | Fixture pairing check (CI) |
+| `bin/`, `src/` | Review CLI (`npm run review -- <diff>`) |
+| `test/` | Fixture assertions for the CLI |
 
 ---
 
@@ -66,7 +88,7 @@ This kit is AppSec PR review: skills, runbooks, `path:line` or silence. Siblings
 
 ## Contributing
 
-See [`CONTRIBUTING.md`](CONTRIBUTING.md) for how to add a skill or runbook, the evidence contract (`path:line` or silence), and the pull-request checklist. Fixture pairs are checked in CI (`scripts/check-fixture-pairs.sh`). Use the **Add a skill** issue template to propose new skills.
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for how to add a skill or runbook, the evidence contract (`path:line` or silence), and the pull-request checklist. Fixture pairs are checked in CI (`scripts/check-fixture-pairs.sh`). The review CLI is covered by `npm test`. Use the **Add a skill** issue template to propose new skills.
 
 Agent notes: [`AGENTS.md`](AGENTS.md).
 

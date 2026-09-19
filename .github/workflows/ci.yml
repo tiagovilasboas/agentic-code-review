@@ -12,3 +12,22 @@ jobs:
       - uses: actions/checkout@v4
       - name: Pair fixtures and require path:line evidence
         run: bash scripts/check-fixture-pairs.sh
+
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Run CLI fixture tests
+        run: npm test
+      - name: Review XSS fixture (expect BLOCK + CWE-79)
+        run: |
+          set +e
+          npm run review -- examples/xss-sink.sample.diff | tee xss-review.out
+          code=${PIPESTATUS[0]}
+          set -e
+          grep -F 'Evidence: web/src/components/CommentBody.tsx:18' xss-review.out
+          grep -F 'CWE: CWE-79' xss-review.out
+          test "$code" -ne 0

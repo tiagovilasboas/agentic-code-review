@@ -1,0 +1,57 @@
+'use strict';
+
+const { compactFindings, createFinding, isCommentLine } = require('./common');
+
+/**
+ * @typedef {import('./common').Finding} Finding
+ * @typedef {import('../parse-diff').DiffFile} DiffFile
+ */
+
+const SECRET_ASSIGN =
+  /(?:password|passwd|secret|token|api[_-]?key|private[_-]?key|access[_-]?key|credential)\s*[:=]\s*["'][^"']+["']/i;
+const KNOWN_PREFIX = /["'](?:pk_live_|pk_test_|sk_live_|sk_test_|AKIA|ghp_|github_pat_|xox[baprs]-)/;
+const CORS_STAR = /\bcors\s*\(\s*\{[^}]*origin\s*:\s*["']\*["']/;
+
+/**
+ * @param {DiffFile} file
+ * @returns {Finding[]}
+ */
+function apply(file) {
+  /** @type {(Finding | null)[]} */
+  const rows = [];
+
+  for (const line of file.added) {
+    if (isCommentLine(line.text)) {
+      continue;
+    }
+    if (/process\.env/.test(line.text)) {
+      continue;
+    }
+    if (SECRET_ASSIGN.test(line.text) || KNOWN_PREFIX.test(line.text)) {
+      rows.push(
+        createFinding({
+          title: 'Hardcoded credential in source',
+          path: file.path,
+          line: line.line,
+          cwe: 'CWE-798',
+          severity: 'CRITICAL',
+        }),
+      );
+    }
+    if (CORS_STAR.test(line.text)) {
+      rows.push(
+        createFinding({
+          title: 'Overly permissive CORS origin',
+          path: file.path,
+          line: line.line,
+          cwe: 'CWE-942',
+          severity: 'MEDIUM',
+        }),
+      );
+    }
+  }
+
+  return compactFindings(rows);
+}
+
+module.exports = { apply };
