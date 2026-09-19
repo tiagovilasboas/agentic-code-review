@@ -7,6 +7,7 @@ Harness-agnostic layout for any agent that reviews a pull-request diff with this
 | Path | Role |
 |---|---|
 | `skills/` | What you check (one skill at a time) |
+| `.agents/skills/appsec-pr-review/SKILL.md` | Loadable Agent Skill (Cursor / Claude). Complementary to the CLI |
 | `runbooks/` | When a human must step in |
 | `guardrails/` | What you must never skip |
 | `examples/` | Sample diff + report shape for dry-runs |
@@ -28,6 +29,7 @@ Optional dry-runs. Cookbook: [`runbooks/01-dry-run-cookbook.md`](runbooks/01-dry
 
 - Work from the **provided diff**, not imagined repo context
 - Or run the local CLI on that diff: `npm run review -- <path.diff>` (rule engine, no LLM)
+- Agents: load [`.agents/skills/appsec-pr-review/SKILL.md`](.agents/skills/appsec-pr-review/SKILL.md), then **one** `skills/*.md` per pass
 - Run **one skill** per pass. Pick from the runbook when-to-load table (`authz-idor`, `secrets-config`, `xss-html`, `ssrf-egress`, `supply-chain`)
 - Report `SEVERITY | file:line | why` (GitHub code-scanning style: location + nature of the problem)
 - Say **insufficient evidence** when the sink or check is outside the diff
