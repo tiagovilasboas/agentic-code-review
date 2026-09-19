@@ -41,6 +41,7 @@ function apply(file) {
       rows.push(
         createFinding({
           title: 'Install-time script',
+          findingClass: 'install-script',
           path: file.path,
           line: line.line,
           cwe: 'CWE-829',
@@ -66,6 +67,7 @@ function apply(file) {
       rows.push(
         createFinding({
           title: 'Unexpected npm registry host',
+          findingClass: 'registry-host',
           path: file.path,
           line: line.line,
           cwe: 'CWE-829',
@@ -90,6 +92,7 @@ function apply(file) {
         rows.push(
           createFinding({
             title: 'Unpinned third-party GitHub Action',
+            findingClass: 'unpinned-action',
             path: file.path,
             line: line.line,
             cwe: 'CWE-829',
@@ -102,6 +105,7 @@ function apply(file) {
         rows.push(
           createFinding({
             title: 'CI install can rewrite the lockfile',
+            findingClass: 'lockfile-rewrite',
             path: file.path,
             line: line.line,
             cwe: 'CWE-1104',
@@ -120,6 +124,7 @@ function apply(file) {
         rows.push(
           createFinding({
             title: 'Lockfile resolved to unexpected registry',
+            findingClass: 'registry-host',
             path: file.path,
             line: line.line,
             cwe: 'CWE-829',

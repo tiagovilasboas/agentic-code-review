@@ -48,6 +48,7 @@ function apply(file) {
       }
       return createFinding({
         title: hit.title,
+        findingClass: 'xss',
         path: file.path,
         line: line.line,
         cwe: 'CWE-79',

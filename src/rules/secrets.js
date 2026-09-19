@@ -32,6 +32,7 @@ function apply(file) {
       rows.push(
         createFinding({
           title: 'Hardcoded credential in source',
+          findingClass: 'secret',
           path: file.path,
           line: line.line,
           cwe: 'CWE-798',
@@ -44,6 +45,7 @@ function apply(file) {
       rows.push(
         createFinding({
           title: 'Overly permissive CORS origin',
+          findingClass: 'cors',
           path: file.path,
           line: line.line,
           cwe: 'CWE-942',

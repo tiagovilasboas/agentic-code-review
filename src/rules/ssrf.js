@@ -52,6 +52,7 @@ function apply(file) {
     rows.push(
       createFinding({
         title: 'SSRF / open URL fetch',
+        findingClass: 'ssrf',
         path: file.path,
         line: line.line,
         cwe: 'CWE-918',
@@ -73,6 +74,7 @@ function apply(file) {
       rows.push(
         createFinding({
           title: 'Fetched body returned to client',
+          findingClass: 'ssrf',
           path: file.path,
           line: line.line,
           cwe: 'CWE-918',
