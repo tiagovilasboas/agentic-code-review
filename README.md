@@ -35,7 +35,7 @@ Deterministic + skill-based **AppSec review of PR diffs**. Evidence is `path:lin
 | Developer | `npm run review -- <diff>` and a loadable Agent Skill |
 | Community | Fail-closed AppSec for agentic PR review — not a vibe scanner |
 
-This repository stays an AppSec PR-review mechanism. It is not an archive, a sibling farm, or a host-specific crew.
+This is an **AppSec PR-review mechanism**: CLI + skills + ASVS. It is not an eval harness, not an awesome list, and not a runtime or layer model.
 
 ## Run it
 
@@ -101,7 +101,7 @@ Sources:
 
 ## Limit
 
-This kit is **not** a full OWASP playbook, not an ASVS audit, not SCA, and not a network pentest. Five PR-smoke skills, one always-on untrusted-diff rule, and a CLI. If the sink is outside the diff, the correct output is `insufficient evidence` — not a guessed CWE or an extra Top 10 row.
+This kit is **not** a full OWASP playbook, not an ASVS audit, not SCA, and not a network pentest. It is also not an eval harness, not an awesome list, and not a runtime or layer model. Five PR-smoke skills, one always-on untrusted-diff rule, and a CLI. If the sink is outside the diff, the correct output is `insufficient evidence` — not a guessed CWE or an extra Top 10 row.
 
 ## Contributing
 

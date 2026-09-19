@@ -49,6 +49,7 @@ What does **not** belong:
 - Skills that tell the agent to apply patches, rotate secrets, or merge
 - Vendor-specific playbooks that only work inside one IDE or one scanner
 - Prompt dumps without Purpose / Instructions / Output format
+- An eval harness, an awesome list, or a runtime / layer model — this repo is an AppSec PR-review mechanism (CLI + skills + ASVS)
 
 ## Adding a skill
 
