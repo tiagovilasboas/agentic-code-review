@@ -9,7 +9,7 @@ This repository is an **actionable kit** for agentic pull-request review:
 | `skills/` | What the agent checks |
 | `.agents/skills/appsec-pr-review/SKILL.md` | Loadable Agent Skill (Cursor / Claude). Complementary to `npm run review` |
 | `runbooks/` | When a human must step in |
-| `guardrails/` | What must never be skipped |
+| `guardrails/` | What must never be skipped (`evidence-required`, `untrusted-diff`, `write-approval`) |
 | `examples/` | Sample PR diff + expected report (dry-run only) |
 | `scripts/` | Fixture pairing check (CI) |
 

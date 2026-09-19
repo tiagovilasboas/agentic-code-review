@@ -12,7 +12,7 @@ Cite these IDs only. Do not invent CWE / CVE / CVSS / extra catalog numbers.
 | OWASP ASVS 5.0 | [13.3.1](https://github.com/OWASP/ASVS/blob/v5.0.0/5.0/en/0x22-V13-Configuration.md) secrets must not be in source or build artifacts; [3.4.2](https://github.com/OWASP/ASVS/blob/v5.0.0/5.0/en/0x12-V3-Web-Frontend-Security.md) CORS `Access-Control-Allow-Origin` is fixed or allowlisted | Hardcoded credential vs `origin: *` |
 | Agentic posture | [ASI09:2026](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/) Human-Agent Trust Exploitation; [AST03](https://owasp.org/www-project-agentic-skills-top-10/) Over-Privileged Skills | Report location only. Never echo the full secret. Never rotate, delete, or write. |
 
-CLI prints `A02:2021, ASVS-5.0-13.3.1` for a hardcoded credential and `A05:2021, ASVS-5.0-3.4.2` for CORS `*`. ASI/AST stay here.
+CLI prints `Class: Secret in source`, `ASVS-5.0-13.3.1`, `Action: BLOCK`, and `Decision: DO NOT MERGE` for a hardcoded credential. CORS `*` is `REVIEW` (`A05:2021`, `ASVS-5.0-3.4.2`). ASI/AST stay here.
 
 ## Instructions for the agent
 1. Scope is the **provided PR diff only**.

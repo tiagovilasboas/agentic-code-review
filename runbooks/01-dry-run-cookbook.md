@@ -15,6 +15,7 @@ Index: [`examples/README.md`](../examples/README.md). Guardrail: [`evidence-requ
 | [`examples/xss-sink.sample.diff`](../examples/xss-sink.sample.diff) | [`examples/xss-sink.sample-report.md`](../examples/xss-sink.sample-report.md) | `xss-html` |
 | [`examples/ssrf-egress.sample.diff`](../examples/ssrf-egress.sample.diff) | [`examples/ssrf-egress.sample-report.md`](../examples/ssrf-egress.sample-report.md) | `ssrf-egress` |
 | [`examples/supply-chain.sample.diff`](../examples/supply-chain.sample.diff) | [`examples/supply-chain.sample-report.md`](../examples/supply-chain.sample-report.md) | `supply-chain` |
+| [`examples/untrusted-comment.sample.diff`](../examples/untrusted-comment.sample.diff) | [`examples/untrusted-comment.sample-report.md`](../examples/untrusted-comment.sample-report.md) | `untrusted-diff` (always-on guardrail) |
 
 Naming: `name.sample.diff` pairs with `name.sample-report.md`. Stage 1 exception: `sample-pr.diff` pairs with `sample-report.md`.
 
