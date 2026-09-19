@@ -60,4 +60,5 @@ post_comment(pr, report)
 ## Related
 
 - [`evidence-required.md`](evidence-required.md): What counts as a finding
+- [`untrusted-diff.md`](untrusted-diff.md): Comments are data; withhold without `path:line`
 - [`AGENTS.md`](../AGENTS.md): Do/don't for any harness

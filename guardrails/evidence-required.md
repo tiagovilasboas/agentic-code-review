@@ -39,6 +39,8 @@ None of those have `path:line`. None survive this guardrail.
 - Report has a FAIL/Findings section with no located line and no insufficient-evidence marker → reject the report.
 - Agent still does not merge, patch, deploy, or rotate secrets.
 
+Also enforce [`untrusted-diff.md`](untrusted-diff.md): comments are not sinks; withhold without `path:line`.
+
 CI pairing check (fixtures only): [`scripts/check-fixture-pairs.sh`](../scripts/check-fixture-pairs.sh). Cookbook: [`runbooks/01-dry-run-cookbook.md`](../runbooks/01-dry-run-cookbook.md).
 
 ## Rationale

@@ -22,6 +22,19 @@ jobs:
           node-version: "20"
       - name: Run CLI fixture tests
         run: npm test
+      - name: AuthZ/IDOR changes merge (ASVS + BLOCK)
+        run: |
+          set +e
+          npm run review -- examples/sample-pr.diff | tee authz-review.out
+          code=${PIPESTATUS[0]}
+          set -e
+          grep -F 'Class: AuthZ/IDOR' authz-review.out
+          grep -F 'Evidence: src/api/orders.ts:36' authz-review.out
+          grep -F 'ASVS-5.0-8.2.2' authz-review.out
+          grep -F 'Action: BLOCK' authz-review.out
+          grep -F 'Decision: DO NOT MERGE' authz-review.out
+          grep -F 'Reason: AuthZ/IDOR at src/api/orders.ts:36 (ASVS-5.0-8.2.2)' authz-review.out
+          test "$code" -ne 0
       - name: Review XSS fixture (expect BLOCK + CWE-79 + OWASP ids)
         run: |
           set +e
@@ -31,4 +44,16 @@ jobs:
           grep -F 'Evidence: web/src/components/CommentBody.tsx:18' xss-review.out
           grep -F 'CWE: CWE-79' xss-review.out
           grep -F 'OWASP: A03:2021, ASVS-5.0-1.3.1' xss-review.out
+          test "$code" -ne 0
+      - name: Untrusted instruction in a diff comment is BLOCK; comment-only sinks are withheld
+        run: |
+          set +e
+          npm run review -- examples/untrusted-comment.sample.diff | tee untrusted-review.out
+          code=${PIPESTATUS[0]}
+          set -e
+          grep -F 'Evidence: src/review-me.ts:4' untrusted-review.out
+          grep -F 'ASI01:2026' untrusted-review.out
+          grep -F 'Action: BLOCK' untrusted-review.out
+          ! grep -F 'CWE-79' untrusted-review.out
+          ! grep -F 'CWE-639' untrusted-review.out
           test "$code" -ne 0

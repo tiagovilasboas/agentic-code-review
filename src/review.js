@@ -6,12 +6,13 @@ const ssrf = require('./rules/ssrf');
 const supplyChain = require('./rules/supply-chain');
 const authz = require('./rules/authz');
 const secrets = require('./rules/secrets');
+const untrustedDiff = require('./rules/untrusted-diff');
 
 /**
  * @typedef {import('./rules/common').Finding} Finding
  */
 
-const RULES = [xss, ssrf, supplyChain, authz, secrets];
+const RULES = [xss, ssrf, supplyChain, authz, secrets, untrustedDiff];
 
 const SEVERITY_RANK = {
   CRITICAL: 0,

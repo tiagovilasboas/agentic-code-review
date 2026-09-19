@@ -33,6 +33,7 @@ const CLI_LABELS = {
   'registry-host': ['A08:2021', 'ASVS-5.0-15.2.4'],
   'unpinned-action': ['A08:2021', 'ASVS-5.0-15.2.4'],
   'lockfile-rewrite': ['A06:2021', 'ASVS-5.0-15.1.2'],
+  'untrusted-diff': ['ASI01:2026', 'AST05'],
 };
 
 /**
@@ -61,6 +62,10 @@ const SKILL_MAP = {
   'supply-chain': {
     app: ['A06:2021', 'A08:2021', 'ASVS-5.0-15.1.2', 'ASVS-5.0-15.2.4'],
     posture: ['ASI04:2026', 'AST02'],
+  },
+  'untrusted-diff': {
+    app: CLI_LABELS['untrusted-diff'],
+    posture: ['ASI01:2026', 'AST05'],
   },
 };
 

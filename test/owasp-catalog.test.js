@@ -21,7 +21,11 @@ test('every skill map id is official; app labels stay on Web/API/ASVS', () => {
       assert.equal(isOfficialId(id), true, `${skill} has unofficial id ${id}`);
     }
     for (const id of map.app) {
-      assert.match(id, /^(?:A0[1-9]:2021|A10:2021|API[1-9]:2023|ASVS-5\.0-\d+\.\d+\.\d+)$/);
+      if (skill === 'untrusted-diff') {
+        assert.match(id, /^(?:ASI[0-9]{2}:2026|AST[0-9]{2})$/);
+      } else {
+        assert.match(id, /^(?:A0[1-9]:2021|A10:2021|API[1-9]:2023|ASVS-5\.0-\d+\.\d+\.\d+)$/);
+      }
     }
     for (const id of map.posture) {
       assert.match(id, /^(?:ASI[0-9]{2}:2026|AST[0-9]{2})$/);
