@@ -1,5 +1,6 @@
 'use strict';
 
+const { labelsFor } = require('../owasp-catalog');
 const { compactFindings, createFinding, isCommentLine } = require('./common');
 
 /**
@@ -34,6 +35,7 @@ function apply(file) {
           path: file.path,
           line: line.line,
           cwe: 'CWE-798',
+          owasp: labelsFor('secret'),
           severity: 'CRITICAL',
         }),
       );
@@ -45,6 +47,7 @@ function apply(file) {
           path: file.path,
           line: line.line,
           cwe: 'CWE-942',
+          owasp: labelsFor('cors'),
           severity: 'MEDIUM',
         }),
       );

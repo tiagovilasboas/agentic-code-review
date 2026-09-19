@@ -1,5 +1,6 @@
 'use strict';
 
+const { labelsFor } = require('../owasp-catalog');
 const { compactFindings, createFinding, isCommentLine } = require('./common');
 
 /**
@@ -43,6 +44,7 @@ function apply(file) {
           path: file.path,
           line: line.line,
           cwe: 'CWE-829',
+          owasp: labelsFor('install-script'),
           severity: 'HIGH',
         }),
       );
@@ -67,6 +69,7 @@ function apply(file) {
           path: file.path,
           line: line.line,
           cwe: 'CWE-829',
+          owasp: labelsFor('registry-host'),
           severity: 'HIGH',
         }),
       );
@@ -90,6 +93,7 @@ function apply(file) {
             path: file.path,
             line: line.line,
             cwe: 'CWE-829',
+            owasp: labelsFor('unpinned-action'),
             severity: 'HIGH',
           }),
         );
@@ -101,6 +105,7 @@ function apply(file) {
             path: file.path,
             line: line.line,
             cwe: 'CWE-1104',
+            owasp: labelsFor('lockfile-rewrite'),
             severity: 'MEDIUM',
           }),
         );
@@ -118,6 +123,7 @@ function apply(file) {
             path: file.path,
             line: line.line,
             cwe: 'CWE-829',
+            owasp: labelsFor('registry-host'),
             severity: 'HIGH',
           }),
         );

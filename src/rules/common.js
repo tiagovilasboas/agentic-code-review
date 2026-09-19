@@ -1,5 +1,7 @@
 'use strict';
 
+const { assertOfficialIds } = require('../owasp-catalog');
+
 /**
  * @typedef {'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW'} Severity
  * @typedef {'BLOCK' | 'REVIEW'} Action
@@ -8,6 +10,7 @@
  *   path: string,
  *   line: number,
  *   cwe: string,
+ *   owasp: string[],
  *   severity: Severity,
  *   action: Action,
  * }} Finding
@@ -16,9 +19,10 @@
  */
 
 /**
- * Fail-closed: drop anything that cannot cite a real new-file path:line.
+ * Fail-closed: drop anything that cannot cite a real new-file path:line
+ * plus an official CWE and official OWASP id list (no invented catalog numbers).
  *
- * @param {{ title: string, path: string, line: number, cwe: string, severity: Severity }} input
+ * @param {{ title: string, path: string, line: number, cwe: string, owasp: string[], severity: Severity }} input
  * @returns {Finding | null}
  */
 function createFinding(input) {
@@ -28,12 +32,17 @@ function createFinding(input) {
   if (!input.cwe || !/^CWE-\d+$/.test(input.cwe)) {
     return null;
   }
+  const owasp = assertOfficialIds(input.owasp);
+  if (!owasp) {
+    return null;
+  }
   const action = input.severity === 'CRITICAL' || input.severity === 'HIGH' ? 'BLOCK' : 'REVIEW';
   return {
     title: input.title,
     path: input.path,
     line: input.line,
     cwe: input.cwe,
+    owasp,
     severity: input.severity,
     action,
   };

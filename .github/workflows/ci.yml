@@ -22,7 +22,7 @@ jobs:
           node-version: "20"
       - name: Run CLI fixture tests
         run: npm test
-      - name: Review XSS fixture (expect BLOCK + CWE-79)
+      - name: Review XSS fixture (expect BLOCK + CWE-79 + OWASP ids)
         run: |
           set +e
           npm run review -- examples/xss-sink.sample.diff | tee xss-review.out
@@ -30,4 +30,5 @@ jobs:
           set -e
           grep -F 'Evidence: web/src/components/CommentBody.tsx:18' xss-review.out
           grep -F 'CWE: CWE-79' xss-review.out
+          grep -F 'OWASP: A03:2021, ASVS-5.0-1.3.1' xss-review.out
           test "$code" -ne 0

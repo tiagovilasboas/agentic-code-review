@@ -18,6 +18,7 @@ function formatReport(findings) {
       `Finding: ${finding.title}`,
       `Evidence: ${finding.path}:${finding.line}`,
       `CWE: ${finding.cwe}`,
+      `OWASP: ${finding.owasp.join(', ')}`,
       `Severity: ${finding.severity}`,
       `Action: ${finding.action}`,
     ].join('\n'),
