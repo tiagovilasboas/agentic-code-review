@@ -144,11 +144,12 @@ New guardrails must not weaken [`guardrails/evidence-required.md`](guardrails/ev
 
 ## How to run a review (local)
 
-There is no installer. Clone, read, run one skill on a diff.
+Clone, run the CLI, or load the Agent Skill and one markdown skill on a diff.
 
 ```bash
 git clone https://github.com/tiagovilasboas/agentic-code-review.git
 cd agentic-code-review
+npm run review -- examples/xss-sink.sample.diff
 ```
 
 Then:
@@ -159,12 +160,10 @@ Then:
 #
 # 2. Optional dry-run. Cookbook: runbooks/01-dry-run-cookbook.md
 #    Index: examples/README.md
-#    examples/sample-pr.diff + examples/sample-report.md
-#    examples/xss-sink.sample.diff + examples/xss-sink.sample-report.md
-#    examples/ssrf-egress.sample.diff + examples/ssrf-egress.sample-report.md
-#    examples/supply-chain.sample.diff + examples/supply-chain.sample-report.md
 #
-# 3. Point your agent at one skill and a PR diff
+# 3. CLI (deterministic, no LLM) or Agent Skill + one markdown skill
+#    npm run review -- <diff>
+#    .agents/skills/appsec-pr-review/SKILL.md
 #    skills/authz-idor.md
 #    skills/secrets-config.md
 #    skills/xss-html.md
@@ -174,8 +173,9 @@ Then:
 # 4. Enforce the evidence guardrail before you trust the report
 #    guardrails/evidence-required.md
 #
-# 5. Confirm fixture pairs (same check as CI)
+# 5. Confirm fixture pairs and CLI tests (same checks as CI)
 #    bash scripts/check-fixture-pairs.sh
+#    npm test
 ```
 
 A finding line should look like a code-scanning annotation, not a paragraph:
@@ -222,12 +222,12 @@ bash scripts/check-fixture-pairs.sh
 ## Pull request checklist
 
 - [ ] English title and body (`Why` / `What` / `How to verify`)
-- [ ] Only the paths that belong to the change (`skills/`, `runbooks/`, `guardrails/`, `examples/`, `scripts/`, or hygiene docs)
+- [ ] Only the paths that belong to the change (`skills/`, `.agents/skills/`, `runbooks/`, `guardrails/`, `examples/`, `scripts/`, `src/`, or hygiene docs)
 - [ ] New skill/runbook follows the templates above
 - [ ] Findings contract still requires `path:line`
 - [ ] New or changed fixtures still pair (diff + report) and pass `bash scripts/check-fixture-pairs.sh`
 - [ ] No exploit PoC, no new vendor lock-in, no agent-merge instructions
-- [ ] README layout table still accurate if you added a path
+- [ ] README Purpose / Run it / OWASP refs / Limit still accurate if you added a path or ID
 
 ## Review process
 

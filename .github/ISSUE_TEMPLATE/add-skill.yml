@@ -35,7 +35,7 @@ body:
     id: risk-class
     attributes:
       label: Primary risk class
-      description: Map to OWASP LLM / GenAI agentic risk. Pick the class this skill actually exercises — not the full Top 10.
+      description: Map to official OWASP IDs this skill actually exercises (ASVS 5.0 and/or Top 10 / API / ASI / AST). Not the full Top 10. Do not invent IDs.
       options:
         - LLM01 Prompt Injection (untrusted text steering the agent)
         - LLM02 Insecure Output Handling (model output used unsafely downstream)
@@ -104,7 +104,7 @@ body:
     id: notes
     attributes:
       label: Notes / sources
-      description: Optional public sources (OWASP LLM Top 10, OWASP GenAI, GitHub code-security docs). No unpublished exploit detail.
+      description: Optional public sources (OWASP Top 10, ASVS 5.0, Agentic Top 10, Agentic Skills Top 10, GitHub code-security docs). Cite IDs. No unpublished exploit detail.
 
   - type: checkboxes
     id: gates

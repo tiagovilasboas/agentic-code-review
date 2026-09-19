@@ -6,10 +6,11 @@ What problem does this change solve? Keep it Staff-shaped: problem and constrain
 
 What changed, and what is explicitly **out of scope**?
 
-- [ ] Skill (`skills/…`)
+- [ ] Skill (`skills/…` or `.agents/skills/…/SKILL.md`)
 - [ ] Runbook (`runbooks/…`)
 - [ ] Guardrail (`guardrails/…`)
 - [ ] Examples (`examples/…`)
+- [ ] CLI / catalog (`src/`, `bin/`, `test/`)
 - [ ] Hygiene / docs only (LICENSE, CONTRIBUTING, templates)
 
 ## How to verify
@@ -19,6 +20,8 @@ Commands, paths, and expected output. Reviewers should be able to re-run this wi
 ```bash
 # Fixture PRs: pairing + path:line evidence (same as CI)
 bash scripts/check-fixture-pairs.sh
+npm test
+npm run review -- examples/xss-sink.sample.diff
 
 # Skill / runbook PRs: apply one skill to a diff, then confirm
 # every finding has file:line or "insufficient evidence"

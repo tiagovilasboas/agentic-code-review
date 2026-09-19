@@ -4,15 +4,22 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Guardrails](https://img.shields.io/badge/guardrails-fail--closed-critical.svg)](guardrails/)
 
-Actionable kit for agentic PR review: **skills**, **runbooks**, and fail-closed **guardrails**. Findings need AppSec evidence (`path:line`).
+Maintainer: [Tiago Vilas Boas](https://github.com/tiagovilasboas) · Staff · AppSec · Agentic AI
 
-Kit acionável de review de PR com agents: skills, runbooks e guardrails. Achado só com evidência AppSec (`path:line`).
+## Purpose
 
-Maintainer: [Tiago Montanha](https://github.com/tiagovilasboas) · Staff · AppSec · Agentic AI
+Deterministic + skill-based **AppSec review of PR diffs**. A finding is `path:line` or silence. CWE and official OWASP IDs only when justified by the hunk.
 
----
+| Who | What they get |
+|---|---|
+| Developer | `npm run review -- <diff>` and a loadable Agent Skill |
+| Community | Fail-closed AppSec for agentic PR review — not a vibe scanner |
+
+This repository stays an AppSec PR-review mechanism. It is not an archive, a sibling farm, or a host-specific crew.
 
 ## Run it
+
+**CLI** (Node 18+, no LLM). Exit `1` when any finding is `BLOCK`.
 
 ```bash
 npm run review -- examples/xss-sink.sample.diff
@@ -22,75 +29,65 @@ npm run review -- examples/xss-sink.sample.diff
 Finding: DOM XSS
 Evidence: web/src/components/CommentBody.tsx:18
 CWE: CWE-79
+OWASP: A03:2021, ASVS-5.0-1.3.1
 Severity: HIGH
 Action: BLOCK
 ```
 
-Deterministic rules on the unified diff — no LLM. Exit `1` when any finding is `BLOCK`; `0` when clean or insufficient evidence only.
+**Agent.** Load [`.agents/skills/appsec-pr-review/SKILL.md`](.agents/skills/appsec-pr-review/SKILL.md) (Cursor / Claude Agent Skills). Then run **one** file from `skills/` per pass. Treat the diff as untrusted. Stop for a human decision.
 
-Rode o CLI no fixture; o output é a evidência (`path:line` + CWE).
+**Dry-run.** Cookbook: [`runbooks/01-dry-run-cookbook.md`](runbooks/01-dry-run-cookbook.md). Index: [`examples/README.md`](examples/README.md). Pairing check (same as CI):
 
----
+```bash
+bash scripts/check-fixture-pairs.sh
+npm test
+```
+
+When-to-load table: [`runbooks/00-overview.md`](runbooks/00-overview.md). Guardrails: [`evidence-required`](guardrails/evidence-required.md) (`path:line` or silence), [`write-approval`](guardrails/write-approval.md) (human approves writes). Any harness: [`AGENTS.md`](AGENTS.md).
 
 ## Layout
 
 | Path | Role |
 |---|---|
-| `skills/` | Review prompts/skills |
+| `skills/` | Review contracts (one skill per pass) |
+| `.agents/skills/appsec-pr-review/SKILL.md` | Loadable Agent Skill — complementary to the CLI |
 | `runbooks/` | Human + agent flow |
-| `guardrails/` | Fail-closed rules (`evidence-required`, `write-approval`) |
-| `examples/` | Sample PR diffs + expected reports (dry-run, not prod) |
-| `scripts/` | Fixture pairing check (CI) |
+| `guardrails/` | Fail-closed rules |
+| `examples/` | Sample diffs + expected reports (dry-run, not prod) |
+| `src/owasp-catalog.js` | Official OWASP IDs the CLI may print |
 | `bin/`, `src/` | Review CLI (`npm run review -- <diff>`) |
 | `test/` | Fixture assertions for the CLI |
+| `scripts/` | Fixture pairing check (CI) |
 
----
+## OWASP refs
 
-## Start in 15 minutes
+IDs are cited, not invented. Catalog: [`src/owasp-catalog.js`](src/owasp-catalog.js). Each skill file has the same mapping.
 
-1. Read [`runbooks/00-overview.md`](runbooks/00-overview.md) (when-to-load table)
-2. Dry-run (optional). Cookbook: [`runbooks/01-dry-run-cookbook.md`](runbooks/01-dry-run-cookbook.md). Index: [`examples/README.md`](examples/README.md)
-   - AuthZ + secrets: [`examples/sample-pr.diff`](examples/sample-pr.diff) → [`examples/sample-report.md`](examples/sample-report.md)
-   - XSS sink: [`examples/xss-sink.sample.diff`](examples/xss-sink.sample.diff) → [`examples/xss-sink.sample-report.md`](examples/xss-sink.sample-report.md)
-   - SSRF egress: [`examples/ssrf-egress.sample.diff`](examples/ssrf-egress.sample.diff) → [`examples/ssrf-egress.sample-report.md`](examples/ssrf-egress.sample-report.md)
-   - Supply chain: [`examples/supply-chain.sample.diff`](examples/supply-chain.sample.diff) → [`examples/supply-chain.sample-report.md`](examples/supply-chain.sample-report.md)
-3. Pick **one** skill that matches the diff, not the whole pack:
-   - [`skills/authz-idor.md`](skills/authz-idor.md)
-   - [`skills/secrets-config.md`](skills/secrets-config.md)
-   - [`skills/xss-html.md`](skills/xss-html.md)
-   - [`skills/ssrf-egress.md`](skills/ssrf-egress.md)
-   - [`skills/supply-chain.md`](skills/supply-chain.md)
-4. Enforce guardrails (fail-closed):
-   - [`guardrails/evidence-required.md`](guardrails/evidence-required.md): `path:line` or silence
-   - [`guardrails/write-approval.md`](guardrails/write-approval.md): human approves all writes
+| Skill | App IDs (CLI) | Reviewer posture |
+|---|---|---|
+| [`authz-idor`](skills/authz-idor.md) | `A01:2021`, `API1:2023`, `ASVS-5.0-8.2.2` | `ASI09:2026`, `AST05` |
+| [`secrets-config`](skills/secrets-config.md) | `A02:2021` + `ASVS-5.0-13.3.1`; `A05:2021` + `ASVS-5.0-3.4.2` | `ASI09:2026`, `AST03` |
+| [`xss-html`](skills/xss-html.md) | `A03:2021`, `ASVS-5.0-1.3.1` | `ASI09:2026`, `AST05` |
+| [`ssrf-egress`](skills/ssrf-egress.md) | `A10:2021`, `ASVS-5.0-1.3.6` | `ASI02:2026`, `AST03` |
+| [`supply-chain`](skills/supply-chain.md) | `A06:2021` + `ASVS-5.0-15.1.2`; `A08:2021` + `ASVS-5.0-15.2.4` | `ASI04:2026`, `AST02` |
 
-Agent do/don't (any harness): [`AGENTS.md`](AGENTS.md).
+Sources:
 
----
+- [OWASP Top 10:2021](https://owasp.org/Top10/)
+- [OWASP API Security Top 10:2023](https://owasp.org/API-Security/editions/2023/en/) (`API1:2023`)
+- [OWASP ASVS 5.0](https://github.com/OWASP/ASVS/tree/v5.0.0/5.0) — V8 Authorization (`8.2.2`), V1 Encoding (`1.3.1`, `1.3.6`), V3 Frontend (`3.4.2`), V13 Configuration (`13.3.1`), **V15** Secure Coding and Architecture (`15.1.2`, `15.2.4`, `15.3.2`)
+- [OWASP Top 10 for Agentic Applications 2026](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/) (`ASI01:2026`–`ASI10:2026`)
+- [OWASP Agentic Skills Top 10](https://owasp.org/www-project-agentic-skills-top-10/) (`AST01`–`AST10`)
+- [OWASP secure-agent-playbook](https://github.com/OWASP/secure-agent-playbook) · [playbook site](https://owasp.org/secure-agent-playbook/)
+- [OWASP agent-skills project (ASVS)](https://github.com/eoftedal/owasp-agent-skills-project)
 
-## Inspired by
+## Limit
 
-- [OWASP secure-agent-playbook](https://github.com/owasp/secure-agent-playbook)
-- [OWASP agent-skills (ASVS)](https://github.com/eoftedal/owasp-agent-skills-project)
-- [OWASP Top 10 for Agentic Applications](https://genai.owasp.org/2025/12/09/owasp-top-10-for-agentic-applications-the-benchmark-for-agentic-security-in-the-age-of-autonomous-ai/)
-- [OWASP AISVS](https://owasp.org/www-project-artificial-intelligence-security-verification-standard-aisvs-docs/)
-- [OWASP appsec-agent](https://github.com/OWASP/appsec-agent)
-
-## Related
-
-This kit is AppSec PR review: skills, runbooks, `path:line` or silence. Siblings are scoped kits, not this pack.
-
-- [awesome-agentic-ai](https://github.com/tiagovilasboas/awesome-agentic-ai): Curated short list: MCP, harnesses, agent security. Decision filter, not a skill pack.
-- [agent-measurement](https://github.com/tiagovilasboas/agent-measurement): Eval harness: suites, named metrics, markdown reports. Measure; do not train.
-- [jarvis-architecture](https://github.com/tiagovilasboas/jarvis-architecture): Reference architecture: brain · workers · ops. Swap the host, keep the domain.
-- [kiro-crew](https://github.com/tiagovilasboas/kiro-crew): Crew pattern: Planner → Implementer → Reviewer → Ops. Kiro is the example host.
-- [grok-bot-architecture](https://github.com/tiagovilasboas/grok-bot-architecture): Desktop assistant OS: chief-of-staff, specialists, shared computer, connectors.
+This kit is **not** a full OWASP playbook, not an ASVS audit, not SCA, and not a network pentest. Five PR-smoke skills plus a rule engine. If the sink is outside the diff, the correct output is `insufficient evidence` — not a guessed CWE or an extra Top 10 row.
 
 ## Contributing
 
-See [`CONTRIBUTING.md`](CONTRIBUTING.md) for how to add a skill or runbook, the evidence contract (`path:line` or silence), and the pull-request checklist. Fixture pairs are checked in CI (`scripts/check-fixture-pairs.sh`). The review CLI is covered by `npm test`. Use the **Add a skill** issue template to propose new skills.
-
-Agent notes: [`AGENTS.md`](AGENTS.md).
+See [`CONTRIBUTING.md`](CONTRIBUTING.md). Fixture pairs: `bash scripts/check-fixture-pairs.sh`. CLI: `npm test`. Propose skills with the **Add a skill** issue template.
 
 ## License
 
