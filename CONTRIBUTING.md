@@ -18,8 +18,8 @@ It is **not** a scanner SaaS, a dump of 50 prompts, or an “AI review” that i
 
 Every contribution must survive a Staff AppSec review. Align with how practitioners and platforms already report risk:
 
-- **OWASP Top 10 for LLM Applications** — name the risk class the skill actually exercises (prompt injection, insecure output handling, sensitive information disclosure, excessive agency, overreliance). Do not paste the whole list into a skill.
-- **OWASP GenAI / agentic framing** — agents take actions. Skills inspect diffs; humans decide merge. No skill grants the agent merge, deploy, or secret-rotation authority.
+- **OWASP IDs, cited not invented** — map the skill to ASVS 5.0 and/or OWASP Top 10 / API / Agentic Top 10 / Agentic Skills Top 10 IDs that the sink actually exercises. Put app IDs in the skill table and in the CLI catalog (`src/owasp-catalog.js`). Put ASI/AST IDs under reviewer posture. Do not paste a full Top 10. Do not invent CWE / CVE / CVSS / catalog numbers.
+- **OWASP GenAI / agentic framing** — agents take actions. Skills inspect diffs; humans decide merge. No skill grants the agent merge, deploy, or secret-rotation authority (`AST03`, `ASI09:2026`).
 - **Practitioner checklists** — prefer a short, fail-closed checklist over narrative. Every step must be runnable on a PR diff.
 - **Evidence path (GitHub code-security style)** — a finding is not a finding without a location. Report `path:line` (or `file:line`), a one-line why, and severity. Same contract as [code scanning alerts](https://docs.github.com/en/code-security/code-scanning/managing-code-scanning-alerts/about-code-scanning-alerts): tool/skill name, location, severity, nature of the problem.
 
@@ -66,7 +66,7 @@ Use this structure (match existing files such as `skills/authz-idor.md`):
 One sentence: what risk this skill looks for in a PR diff.
 
 ## Risk class
-OWASP LLM / GenAI class this skill exercises (one or two, not the full Top 10).
+Table of official IDs only (OWASP Top 10 / API / ASVS 5.0 for the app sink; ASI/AST for reviewer posture). Not the full Top 10.
 
 ## Instructions for the agent
 1. Numbered, fail-closed steps.
@@ -216,7 +216,7 @@ bash scripts/check-fixture-pairs.sh
 - **English** for all new contributor-facing text (this file, issue/PR templates, skills, runbooks, guardrails).
 - Commands, paths, and identifiers stay in **English fenced blocks**. Do not mix another language into the same fence.
 - Prefer checklists and tables over long prose.
-- Cite a public source when you introduce a risk name (OWASP LLM Top 10, OWASP GenAI, GitHub code-security docs). Accuracy matters more than coverage.
+- Cite a public source when you introduce a risk name (OWASP Top 10, ASVS 5.0, Agentic Top 10, Agentic Skills Top 10, GitHub code-security docs). Accuracy matters more than coverage.
 
 ## Pull request checklist
 

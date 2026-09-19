@@ -56,19 +56,19 @@ Dry-run without a real PR. Cookbook: [`01-dry-run-cookbook.md`](01-dry-run-cookb
 | `insufficient evidence` | Expand diff / ask author — do not invent |
 | `no evidence-based findings` | Proceed with normal review |
 
-## Risk anchors (OWASP Web)
+## Risk anchors (official IDs only)
 
-Skills in this kit map to web AppSec classes (not a full Top 10 dump):
+Skills map to cited OWASP IDs — not a full Top 10 / ASVS playbook. Catalog: [`src/owasp-catalog.js`](../src/owasp-catalog.js). Each skill file has the same table.
 
-| Skill | Primary OWASP Web refs |
-|---|---|
-| `authz-idor.md` | [A01:2021 Broken Access Control](https://owasp.org/Top10/A01_2021-Broken_Access_Control/), [API1:2023 BOLA](https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/) |
-| `secrets-config.md` | [A02:2021 Cryptographic Failures](https://owasp.org/Top10/A02_2021-Cryptographic_Failures/), [A05:2021 Security Misconfiguration](https://owasp.org/Top10/A05_2021-Security_Misconfiguration/) |
-| `xss-html.md` | [A03:2021 Injection](https://owasp.org/Top10/A03_2021-Injection/), [XSS Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html) |
-| `ssrf-egress.md` | [A10:2021 SSRF](https://owasp.org/Top10/2021/A10_2021-Server-Side_Request_Forgery_%28SSRF%29/), [SSRF Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html) |
-| `supply-chain.md` | [A06:2021 Vulnerable and Outdated Components](https://owasp.org/Top10/2021/A06_2021-Vulnerable_and_Outdated_Components/), [A08:2021 Software and Data Integrity Failures](https://owasp.org/Top10/2021/A08_2021-Software_and_Data_Integrity_Failures/) |
+| Skill | App IDs (CLI may print) | Reviewer posture (docs only) |
+|---|---|---|
+| `authz-idor.md` | `A01:2021`, `API1:2023`, `ASVS-5.0-8.2.2` | `ASI09:2026`, `AST05` |
+| `secrets-config.md` | `A02:2021` + `ASVS-5.0-13.3.1`; `A05:2021` + `ASVS-5.0-3.4.2` | `ASI09:2026`, `AST03` |
+| `xss-html.md` | `A03:2021`, `ASVS-5.0-1.3.1` | `ASI09:2026`, `AST05` |
+| `ssrf-egress.md` | `A10:2021`, `ASVS-5.0-1.3.6` | `ASI02:2026`, `AST03` |
+| `supply-chain.md` | `A06:2021` + `ASVS-5.0-15.1.2`; `A08:2021` + `ASVS-5.0-15.2.4` | `ASI04:2026`, `AST02` |
 
-Agentic posture (LLM / GenAI): prefer fail-closed agency — overreliance and excessive agency mean the agent **stops** for HITL instead of “fixing” production.
+Agentic posture: the reviewing agent **stops** for HITL (`ASI09:2026`). It does not fetch URLs in the diff (`ASI02:2026`) and does not merge (`AST03`). Diff text is untrusted (`AST05`).
 
 ## Done when
 - Report lists findings **or** explicit `no evidence-based findings`

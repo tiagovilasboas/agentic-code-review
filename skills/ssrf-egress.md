@@ -3,6 +3,17 @@
 ## Purpose
 Find the server fetching a URL or host the caller can influence — webhook, preview, import, proxy, “fetch this image”. Diff review, not a network pentest.
 
+## Risk class
+Cite these IDs only. Do not invent CWE / CVE / CVSS / extra catalog numbers.
+
+| Kind | IDs (official) | Why this skill |
+|---|---|---|
+| OWASP Top 10:2021 | [A10:2021](https://owasp.org/Top10/2021/A10_2021-Server-Side_Request_Forgery_%28SSRF%29/) Server-Side Request Forgery | Caller-influenced URL/host reaches a server client |
+| OWASP ASVS 5.0 | [1.3.6](https://github.com/OWASP/ASVS/blob/v5.0.0/5.0/en/0x10-V1-Encoding-and-Sanitization.md) SSRF allowlist of protocols, domains, paths, ports; [13.2.4](https://github.com/OWASP/ASVS/blob/v5.0.0/5.0/en/0x22-V13-Configuration.md) outbound allowlist; [15.3.2](https://github.com/OWASP/ASVS/blob/v5.0.0/5.0/en/0x24-V15-Secure-Coding-and-Architecture.md) do not follow redirects unless intended | Allowlist + redirect posture in the hunk |
+| Agentic posture | [ASI02:2026](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/) Tool Misuse and Exploitation; [AST03](https://owasp.org/www-project-agentic-skills-top-10/) Over-Privileged Skills | The reviewer must not `fetch` the URL in the diff. Location + why is enough. |
+
+CLI prints `A10:2021, ASVS-5.0-1.3.6` when the rule fires. ASI/AST stay here.
+
 ## Hunt table
 
 | Signal in the diff | What you are looking for | Evidence to cite |
@@ -59,8 +70,9 @@ You cannot see VPC egress from a PR. Do not claim “network layer is open” or
 - One line: who controls the URL, whether redirects/allowlist are in the hunk.
 
 ## Refs (public)
-- [OWASP SSRF Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html)
 - [OWASP Top 10:2021 A10 SSRF](https://owasp.org/Top10/2021/A10_2021-Server-Side_Request_Forgery_%28SSRF%29/)
-- [CWE-918](https://cwe.mitre.org/data/definitions/918.html)
+- [OWASP ASVS 5.0 `1.3.6`](https://github.com/OWASP/ASVS/blob/v5.0.0/5.0/en/0x10-V1-Encoding-and-Sanitization.md)
+- [OWASP SSRF Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html)
+- [CWE-918](https://cwe.mitre.org/data/definitions/918.html) — only when the fetch line is in the hunk
 
 Worked fixture: [`examples/ssrf-egress.sample.diff`](../examples/ssrf-egress.sample.diff) → [`examples/ssrf-egress.sample-report.md`](../examples/ssrf-egress.sample-report.md). Index: [`examples/README.md`](../examples/README.md).

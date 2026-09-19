@@ -3,6 +3,17 @@
 ## Purpose
 Find user-controlled strings reaching HTML or JS execution sinks in a PR diff. Stored, reflected, DOM — same job: source → sink, or drop it.
 
+## Risk class
+Cite these IDs only. Do not invent CWE / CVE / CVSS / extra catalog numbers.
+
+| Kind | IDs (official) | Why this skill |
+|---|---|---|
+| OWASP Top 10:2021 | [A03:2021](https://owasp.org/Top10/A03_2021-Injection/) Injection | Untrusted string in an HTML/JS sink |
+| OWASP ASVS 5.0 | [1.3.1](https://github.com/OWASP/ASVS/blob/v5.0.0/5.0/en/0x10-V1-Encoding-and-Sanitization.md) sanitize untrusted HTML with a well-known library; [3.2.2](https://github.com/OWASP/ASVS/blob/v5.0.0/5.0/en/0x12-V3-Web-Frontend-Security.md) text intended as text uses `textContent` / `createTextNode` | Same sink: `innerHTML` / `dangerouslySetInnerHTML` / `v-html` |
+| Agentic posture | [ASI09:2026](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/) Human-Agent Trust Exploitation; [AST05](https://owasp.org/www-project-agentic-skills-top-10/) Untrusted External Instructions | Diff HTML is untrusted. Do not invent CWE-79. Do not write a payload. |
+
+CLI prints `A03:2021, ASVS-5.0-1.3.1` when the rule fires. ASI/AST stay here.
+
 ## Hunt table
 
 | Signal in the diff | What you are looking for | Evidence to cite |
@@ -47,7 +58,9 @@ Regex-strip of `<script>` is not a pass. Context-wrong encoding (HTML-encode int
 - One line on source → sink, or `insufficient evidence`.
 
 ## Refs (public)
+- [OWASP Top 10:2021 A03 Injection](https://owasp.org/Top10/A03_2021-Injection/)
+- [OWASP ASVS 5.0 V1 Encoding and Sanitization](https://github.com/OWASP/ASVS/blob/v5.0.0/5.0/en/0x10-V1-Encoding-and-Sanitization.md) (`1.3.1`)
 - [OWASP XSS Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)
-- [CWE-79](https://cwe.mitre.org/data/definitions/79.html)
+- [CWE-79](https://cwe.mitre.org/data/definitions/79.html) — only when the sink is in the hunk
 
 Worked fixture: [`examples/xss-sink.sample.diff`](../examples/xss-sink.sample.diff) → [`examples/xss-sink.sample-report.md`](../examples/xss-sink.sample-report.md). Index: [`examples/README.md`](../examples/README.md).

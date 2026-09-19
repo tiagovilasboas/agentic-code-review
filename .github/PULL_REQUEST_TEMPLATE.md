@@ -34,7 +34,7 @@ bash scripts/check-fixture-pairs.sh
 
 ## Risk class (skills / runbooks only)
 
-Which OWASP LLM / GenAI class does this exercise? Leave blank for hygiene-only PRs.
+Which official OWASP IDs does this exercise (ASVS 5.0 and/or Top 10 / API / ASI / AST)? Cite IDs; do not invent. Leave blank for hygiene-only PRs.
 
 ## Checklist
 

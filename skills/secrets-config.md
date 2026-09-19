@@ -4,8 +4,15 @@
 Catch hardcoded secrets and dangerous config defaults introduced or worsened in a PR diff.
 
 ## Risk class
-- **OWASP Web:** [A02:2021 Cryptographic Failures](https://owasp.org/Top10/A02_2021-Cryptographic_Failures/) (secrets in source / credentials exposure) and [A05:2021 Security Misconfiguration](https://owasp.org/Top10/A05_2021-Security_Misconfiguration/) (debug flags, open CORS, insecure defaults)
-- **OWASP LLM / GenAI (agent posture):** sensitive information disclosure — report location only; never echo full secret values in the report body; never rotate or delete secrets
+Cite these IDs only. Do not invent CWE / CVE / CVSS / extra catalog numbers.
+
+| Kind | IDs (official) | Why this skill |
+|---|---|---|
+| OWASP Top 10:2021 | [A02:2021](https://owasp.org/Top10/A02_2021-Cryptographic_Failures/) Cryptographic Failures; [A05:2021](https://owasp.org/Top10/A05_2021-Security_Misconfiguration/) Security Misconfiguration | Secrets in source; debug / open CORS / insecure defaults |
+| OWASP ASVS 5.0 | [13.3.1](https://github.com/OWASP/ASVS/blob/v5.0.0/5.0/en/0x22-V13-Configuration.md) secrets must not be in source or build artifacts; [3.4.2](https://github.com/OWASP/ASVS/blob/v5.0.0/5.0/en/0x12-V3-Web-Frontend-Security.md) CORS `Access-Control-Allow-Origin` is fixed or allowlisted | Hardcoded credential vs `origin: *` |
+| Agentic posture | [ASI09:2026](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/) Human-Agent Trust Exploitation; [AST03](https://owasp.org/www-project-agentic-skills-top-10/) Over-Privileged Skills | Report location only. Never echo the full secret. Never rotate, delete, or write. |
+
+CLI prints `A02:2021, ASVS-5.0-13.3.1` for a hardcoded credential and `A05:2021, ASVS-5.0-3.4.2` for CORS `*`. ASI/AST stay here.
 
 ## Instructions for the agent
 1. Scope is the **provided PR diff only**.

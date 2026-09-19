@@ -3,6 +3,17 @@
 ## Purpose
 Catch install-time and lockfile surprises in a PR: new registries, install scripts, unpinned Actions, `curl | sh`. You are not running SCA. You are reading the diff.
 
+## Risk class
+Cite these IDs only. Do not invent CWE / CVE / CVSS / extra catalog numbers.
+
+| Kind | IDs (official) | Why this skill |
+|---|---|---|
+| OWASP Top 10:2021 | [A06:2021](https://owasp.org/Top10/2021/A06_2021-Vulnerable_and_Outdated_Components/) Vulnerable and Outdated Components; [A08:2021](https://owasp.org/Top10/2021/A08_2021-Software_and_Data_Integrity_Failures/) Software and Data Integrity Failures | Lockfile honesty vs install-path integrity (scripts, registry, unsigned Actions) |
+| OWASP ASVS 5.0 V15 | [15.1.2](https://github.com/OWASP/ASVS/blob/v5.0.0/5.0/en/0x24-V15-Secure-Coding-and-Architecture.md) components from pre-defined, trusted, maintained repositories; [15.2.4](https://github.com/OWASP/ASVS/blob/v5.0.0/5.0/en/0x24-V15-Secure-Coding-and-Architecture.md) expected repository / no dependency confusion | Registry host, lockfile `resolved`, install scripts |
+| Agentic posture | [ASI04:2026](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/) Agentic Supply Chain Vulnerabilities; [AST02](https://owasp.org/www-project-agentic-skills-top-10/) Supply Chain Compromise | If the PR also adds agent skills / MCP, say so. Do not invent a CVE from memory. |
+
+CLI prints `A08:2021, ASVS-5.0-15.2.4` for install-path integrity and `A06:2021, ASVS-5.0-15.1.2` for lockfile-rewrite CI. ASI/AST stay here.
+
 ## Hunt table
 
 | Signal in the diff | What you are looking for | Evidence to cite |
@@ -65,6 +76,7 @@ This skill does **not** prove the new version is safe. It proves the *install pa
 ## Refs (public)
 - [OWASP Top 10:2021 A06 Vulnerable and Outdated Components](https://owasp.org/Top10/2021/A06_2021-Vulnerable_and_Outdated_Components/)
 - [OWASP Top 10:2021 A08 Software and Data Integrity Failures](https://owasp.org/Top10/2021/A08_2021-Software_and_Data_Integrity_Failures/)
-- [CWE-1104](https://cwe.mitre.org/data/definitions/1104.html)
+- [OWASP ASVS 5.0 V15 Secure Coding and Architecture](https://github.com/OWASP/ASVS/blob/v5.0.0/5.0/en/0x24-V15-Secure-Coding-and-Architecture.md) (`15.1.2`, `15.2.4`)
+- [CWE-1104](https://cwe.mitre.org/data/definitions/1104.html) / [CWE-829](https://cwe.mitre.org/data/definitions/829.html) — only when the install line is in the hunk
 
 Worked fixture: [`examples/supply-chain.sample.diff`](../examples/supply-chain.sample.diff) → [`examples/supply-chain.sample-report.md`](../examples/supply-chain.sample-report.md). Index: [`examples/README.md`](../examples/README.md).
