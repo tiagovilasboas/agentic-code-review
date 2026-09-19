@@ -1,5 +1,6 @@
 'use strict';
 
+const { labelsFor } = require('../owasp-catalog');
 const { compactFindings, createFinding, isCommentLine } = require('./common');
 
 /**
@@ -47,9 +48,11 @@ function apply(file) {
       }
       return createFinding({
         title: hit.title,
+        findingClass: 'xss',
         path: file.path,
         line: line.line,
         cwe: 'CWE-79',
+        owasp: labelsFor('xss'),
         severity: 'HIGH',
       });
     }),

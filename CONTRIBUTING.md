@@ -7,8 +7,9 @@ This repository is an **actionable kit** for agentic pull-request review:
 | Path | Role |
 |---|---|
 | `skills/` | What the agent checks |
+| `.agents/skills/appsec-pr-review/SKILL.md` | Loadable Agent Skill (Cursor / Claude). Complementary to `npm run review` |
 | `runbooks/` | When a human must step in |
-| `guardrails/` | What must never be skipped |
+| `guardrails/` | What must never be skipped (`evidence-required`, `untrusted-diff`, `write-approval`) |
 | `examples/` | Sample PR diff + expected report (dry-run only) |
 | `scripts/` | Fixture pairing check (CI) |
 
@@ -18,8 +19,8 @@ It is **not** a scanner SaaS, a dump of 50 prompts, or an “AI review” that i
 
 Every contribution must survive a Staff AppSec review. Align with how practitioners and platforms already report risk:
 
-- **OWASP Top 10 for LLM Applications** — name the risk class the skill actually exercises (prompt injection, insecure output handling, sensitive information disclosure, excessive agency, overreliance). Do not paste the whole list into a skill.
-- **OWASP GenAI / agentic framing** — agents take actions. Skills inspect diffs; humans decide merge. No skill grants the agent merge, deploy, or secret-rotation authority.
+- **OWASP IDs, cited not invented** — map the skill to ASVS 5.0 and/or OWASP Top 10 / API / Agentic Top 10 / Agentic Skills Top 10 IDs that the sink actually exercises. Put app IDs in the skill table and in the CLI catalog (`src/owasp-catalog.js`). Put ASI/AST IDs under reviewer posture. Do not paste a full Top 10. Do not invent CWE / CVE / CVSS / catalog numbers.
+- **OWASP GenAI / agentic framing** — agents take actions. Skills inspect diffs; humans decide merge. No skill grants the agent merge, deploy, or secret-rotation authority (`AST03`, `ASI09:2026`).
 - **Practitioner checklists** — prefer a short, fail-closed checklist over narrative. Every step must be runnable on a PR diff.
 - **Evidence path (GitHub code-security style)** — a finding is not a finding without a location. Report `path:line` (or `file:line`), a one-line why, and severity. Same contract as [code scanning alerts](https://docs.github.com/en/code-security/code-scanning/managing-code-scanning-alerts/about-code-scanning-alerts): tool/skill name, location, severity, nature of the problem.
 
@@ -48,6 +49,7 @@ What does **not** belong:
 - Skills that tell the agent to apply patches, rotate secrets, or merge
 - Vendor-specific playbooks that only work inside one IDE or one scanner
 - Prompt dumps without Purpose / Instructions / Output format
+- An eval harness, an awesome list, or a runtime / layer model — this repo is an AppSec PR-review mechanism (CLI + skills + ASVS)
 
 ## Adding a skill
 
@@ -66,7 +68,7 @@ Use this structure (match existing files such as `skills/authz-idor.md`):
 One sentence: what risk this skill looks for in a PR diff.
 
 ## Risk class
-OWASP LLM / GenAI class this skill exercises (one or two, not the full Top 10).
+Table of official IDs only (OWASP Top 10 / API / ASVS 5.0 for the app sink; ASI/AST for reviewer posture). Not the full Top 10.
 
 ## Instructions for the agent
 1. Numbered, fail-closed steps.
@@ -143,11 +145,12 @@ New guardrails must not weaken [`guardrails/evidence-required.md`](guardrails/ev
 
 ## How to run a review (local)
 
-There is no installer. Clone, read, run one skill on a diff.
+Clone, run the CLI, or load the Agent Skill and one markdown skill on a diff.
 
 ```bash
 git clone https://github.com/tiagovilasboas/agentic-code-review.git
 cd agentic-code-review
+npm run review -- examples/xss-sink.sample.diff
 ```
 
 Then:
@@ -158,12 +161,10 @@ Then:
 #
 # 2. Optional dry-run. Cookbook: runbooks/01-dry-run-cookbook.md
 #    Index: examples/README.md
-#    examples/sample-pr.diff + examples/sample-report.md
-#    examples/xss-sink.sample.diff + examples/xss-sink.sample-report.md
-#    examples/ssrf-egress.sample.diff + examples/ssrf-egress.sample-report.md
-#    examples/supply-chain.sample.diff + examples/supply-chain.sample-report.md
 #
-# 3. Point your agent at one skill and a PR diff
+# 3. CLI (deterministic, no LLM) or Agent Skill + one markdown skill
+#    npm run review -- <diff>
+#    .agents/skills/appsec-pr-review/SKILL.md
 #    skills/authz-idor.md
 #    skills/secrets-config.md
 #    skills/xss-html.md
@@ -173,8 +174,9 @@ Then:
 # 4. Enforce the evidence guardrail before you trust the report
 #    guardrails/evidence-required.md
 #
-# 5. Confirm fixture pairs (same check as CI)
+# 5. Confirm fixture pairs and CLI tests (same checks as CI)
 #    bash scripts/check-fixture-pairs.sh
+#    npm test
 ```
 
 A finding line should look like a code-scanning annotation, not a paragraph:
@@ -216,17 +218,17 @@ bash scripts/check-fixture-pairs.sh
 - **English** for all new contributor-facing text (this file, issue/PR templates, skills, runbooks, guardrails).
 - Commands, paths, and identifiers stay in **English fenced blocks**. Do not mix another language into the same fence.
 - Prefer checklists and tables over long prose.
-- Cite a public source when you introduce a risk name (OWASP LLM Top 10, OWASP GenAI, GitHub code-security docs). Accuracy matters more than coverage.
+- Cite a public source when you introduce a risk name (OWASP Top 10, ASVS 5.0, Agentic Top 10, Agentic Skills Top 10, GitHub code-security docs). Accuracy matters more than coverage.
 
 ## Pull request checklist
 
 - [ ] English title and body (`Why` / `What` / `How to verify`)
-- [ ] Only the paths that belong to the change (`skills/`, `runbooks/`, `guardrails/`, `examples/`, `scripts/`, or hygiene docs)
+- [ ] Only the paths that belong to the change (`skills/`, `.agents/skills/`, `runbooks/`, `guardrails/`, `examples/`, `scripts/`, `src/`, or hygiene docs)
 - [ ] New skill/runbook follows the templates above
 - [ ] Findings contract still requires `path:line`
 - [ ] New or changed fixtures still pair (diff + report) and pass `bash scripts/check-fixture-pairs.sh`
 - [ ] No exploit PoC, no new vendor lock-in, no agent-merge instructions
-- [ ] README layout table still accurate if you added a path
+- [ ] README Purpose / Run it / OWASP refs / Limit still accurate if you added a path or ID
 
 ## Review process
 

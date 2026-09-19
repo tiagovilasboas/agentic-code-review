@@ -1,5 +1,6 @@
 'use strict';
 
+const { labelsFor } = require('../owasp-catalog');
 const { compactFindings, createFinding, isCommentLine } = require('./common');
 
 /**
@@ -40,9 +41,11 @@ function apply(file) {
       rows.push(
         createFinding({
           title: 'Install-time script',
+          findingClass: 'install-script',
           path: file.path,
           line: line.line,
           cwe: 'CWE-829',
+          owasp: labelsFor('install-script'),
           severity: 'HIGH',
         }),
       );
@@ -64,9 +67,11 @@ function apply(file) {
       rows.push(
         createFinding({
           title: 'Unexpected npm registry host',
+          findingClass: 'registry-host',
           path: file.path,
           line: line.line,
           cwe: 'CWE-829',
+          owasp: labelsFor('registry-host'),
           severity: 'HIGH',
         }),
       );
@@ -87,9 +92,11 @@ function apply(file) {
         rows.push(
           createFinding({
             title: 'Unpinned third-party GitHub Action',
+            findingClass: 'unpinned-action',
             path: file.path,
             line: line.line,
             cwe: 'CWE-829',
+            owasp: labelsFor('unpinned-action'),
             severity: 'HIGH',
           }),
         );
@@ -98,9 +105,11 @@ function apply(file) {
         rows.push(
           createFinding({
             title: 'CI install can rewrite the lockfile',
+            findingClass: 'lockfile-rewrite',
             path: file.path,
             line: line.line,
             cwe: 'CWE-1104',
+            owasp: labelsFor('lockfile-rewrite'),
             severity: 'MEDIUM',
           }),
         );
@@ -115,9 +124,11 @@ function apply(file) {
         rows.push(
           createFinding({
             title: 'Lockfile resolved to unexpected registry',
+            findingClass: 'registry-host',
             path: file.path,
             line: line.line,
             cwe: 'CWE-829',
+            owasp: labelsFor('registry-host'),
             severity: 'HIGH',
           }),
         );

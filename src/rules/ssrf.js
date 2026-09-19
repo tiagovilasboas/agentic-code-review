@@ -1,5 +1,6 @@
 'use strict';
 
+const { labelsFor } = require('../owasp-catalog');
 const { compactFindings, createFinding, isCommentLine, isStringLiteral } = require('./common');
 
 /**
@@ -51,9 +52,11 @@ function apply(file) {
     rows.push(
       createFinding({
         title: 'SSRF / open URL fetch',
+        findingClass: 'ssrf',
         path: file.path,
         line: line.line,
         cwe: 'CWE-918',
+        owasp: labelsFor('ssrf'),
         severity: 'HIGH',
       }),
     );
@@ -71,9 +74,11 @@ function apply(file) {
       rows.push(
         createFinding({
           title: 'Fetched body returned to client',
+          findingClass: 'ssrf',
           path: file.path,
           line: line.line,
           cwe: 'CWE-918',
+          owasp: labelsFor('ssrf'),
           severity: 'MEDIUM',
         }),
       );

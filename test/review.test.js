@@ -29,7 +29,7 @@ function runReview(args, opts = {}) {
 
 /**
  * @param {string} stdout
- * @param {{ title?: string, evidence: string, cwe: string, severity: string, action: string }} expect
+ * @param {{ title?: string, evidence: string, cwe: string, owasp: string, severity: string, action: string }} expect
  */
 function assertFinding(stdout, expect) {
   assert.match(stdout, new RegExp(`Evidence: ${expect.evidence.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`));
@@ -40,8 +40,15 @@ function assertFinding(stdout, expect) {
     assert.match(block, new RegExp(`Finding: ${expect.title}`));
   }
   assert.match(block, new RegExp(`CWE: ${expect.cwe}`));
+  assert.match(block, new RegExp(`OWASP: ${expect.owasp.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`));
   assert.match(block, new RegExp(`Severity: ${expect.severity}`));
   assert.match(block, new RegExp(`Action: ${expect.action}`));
+  if (expect.findingClass) {
+    assert.match(block, new RegExp(`Class: ${expect.findingClass.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`));
+  }
+  if (expect.decision) {
+    assert.match(block, new RegExp(`Decision: ${expect.decision}`));
+  }
 }
 
 test('xss-sink.sample.diff prints DOM XSS at CommentBody.tsx:18 / CWE-79 and exits 1', () => {
@@ -51,6 +58,7 @@ test('xss-sink.sample.diff prints DOM XSS at CommentBody.tsx:18 / CWE-79 and exi
     title: 'DOM XSS',
     evidence: 'web/src/components/CommentBody.tsx:18',
     cwe: 'CWE-79',
+    owasp: 'A03:2021, ASVS-5.0-1.3.1',
     severity: 'HIGH',
     action: 'BLOCK',
   });
@@ -63,12 +71,14 @@ test('ssrf-egress.sample.diff prints open fetch at preview.ts:14 / CWE-918', () 
     title: 'SSRF / open URL fetch',
     evidence: 'src/api/preview.ts:14',
     cwe: 'CWE-918',
+    owasp: 'A10:2021, ASVS-5.0-1.3.6',
     severity: 'HIGH',
     action: 'BLOCK',
   });
   assertFinding(result.stdout, {
     evidence: 'src/api/preview.ts:16',
     cwe: 'CWE-918',
+    owasp: 'A10:2021, ASVS-5.0-1.3.6',
     severity: 'MEDIUM',
     action: 'REVIEW',
   });
@@ -82,24 +92,28 @@ test('supply-chain.sample.diff prints install-path findings; honest lockfile pin
   assertFinding(result.stdout, {
     evidence: 'package.json:8',
     cwe: 'CWE-829',
+    owasp: 'A08:2021, ASVS-5.0-15.2.4',
     severity: 'HIGH',
     action: 'BLOCK',
   });
   assertFinding(result.stdout, {
     evidence: '.npmrc:2',
     cwe: 'CWE-829',
+    owasp: 'A08:2021, ASVS-5.0-15.2.4',
     severity: 'HIGH',
     action: 'BLOCK',
   });
   assertFinding(result.stdout, {
     evidence: '.github/workflows/ci.yml:9',
     cwe: 'CWE-829',
+    owasp: 'A08:2021, ASVS-5.0-15.2.4',
     severity: 'HIGH',
     action: 'BLOCK',
   });
   assertFinding(result.stdout, {
     evidence: '.github/workflows/ci.yml:14',
     cwe: 'CWE-1104',
+    owasp: 'A06:2021, ASVS-5.0-15.1.2',
     severity: 'MEDIUM',
     action: 'REVIEW',
   });
@@ -111,26 +125,56 @@ test('sample-pr.diff prints AuthZ + hardcoded token + CORS', () => {
   assert.equal(result.status, 1);
   assertFinding(result.stdout, {
     title: 'Missing object-level authorization',
+    findingClass: 'AuthZ/IDOR',
     evidence: 'src/api/orders.ts:36',
     cwe: 'CWE-639',
+    owasp: 'A01:2021, API1:2023, ASVS-5.0-8.2.2',
     severity: 'HIGH',
     action: 'BLOCK',
+    decision: 'DO NOT MERGE',
   });
   assertFinding(result.stdout, {
     title: 'Hardcoded credential in source',
+    findingClass: 'Secret in source',
     evidence: 'config/app.ts:14',
     cwe: 'CWE-798',
+    owasp: 'A02:2021, ASVS-5.0-13.3.1',
     severity: 'CRITICAL',
     action: 'BLOCK',
+    decision: 'DO NOT MERGE',
   });
   assertFinding(result.stdout, {
     title: 'Overly permissive CORS origin',
     evidence: 'src/server.ts:8',
     cwe: 'CWE-942',
+    owasp: 'A05:2021, ASVS-5.0-3.4.2',
     severity: 'MEDIUM',
     action: 'REVIEW',
   });
   assert.equal(result.stdout.includes('pk_test_REDACTED_SAMPLE_ONLY_0000'), false);
+  assert.match(result.stdout, /Decision: DO NOT MERGE/);
+  assert.match(
+    result.stdout,
+    /Reason: AuthZ\/IDOR at src\/api\/orders\.ts:36 \(ASVS-5\.0-8\.2\.2\)/,
+  );
+});
+
+test('untrusted-comment.sample.diff BLOCKs the instruction comment and withholds comment-only sinks', () => {
+  const result = runReview(['examples/untrusted-comment.sample.diff']);
+  assert.equal(result.status, 1);
+  assertFinding(result.stdout, {
+    title: 'Untrusted instruction in diff comment',
+    findingClass: 'Untrusted diff instruction',
+    evidence: 'src/review-me.ts:4',
+    cwe: 'CWE-1427',
+    owasp: 'ASI01:2026, AST05',
+    severity: 'HIGH',
+    action: 'BLOCK',
+  });
+  assert.equal(result.stdout.includes('CommentBody'), false);
+  assert.equal(result.stdout.includes('orders.ts:99'), false);
+  assert.equal(result.stdout.includes('CWE-79'), false);
+  assert.equal(result.stdout.includes('CWE-639'), false);
 });
 
 test('docs-only diff is silence and exit 0', () => {

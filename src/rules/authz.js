@@ -1,5 +1,6 @@
 'use strict';
 
+const { labelsFor } = require('../owasp-catalog');
 const { compactFindings, createFinding, isCommentLine } = require('./common');
 
 /**
@@ -34,9 +35,11 @@ function apply(file) {
       }
       return createFinding({
         title: 'Missing object-level authorization',
+        findingClass: 'authz',
         path: file.path,
         line: line.line,
         cwe: 'CWE-639',
+        owasp: labelsFor('authz'),
         severity: 'HIGH',
       });
     }),
