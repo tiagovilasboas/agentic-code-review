@@ -199,6 +199,126 @@ test('docs-only diff is silence and exit 0', () => {
   assert.equal(result.stdout, 'no evidence-based findings\n');
 });
 
+/**
+ * Write a one-file diff whose added lines are `body` and run the CLI on it.
+ *
+ * @param {string[]} body
+ * @returns {{ status: number | null, stdout: string, stderr: string }}
+ */
+function reviewHandler(body) {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'acr-authz-'));
+  const diffPath = path.join(dir, 'handler.diff');
+  fs.writeFileSync(
+    diffPath,
+    [
+      'diff --git a/src/api/orders.ts b/src/api/orders.ts',
+      '--- a/src/api/orders.ts',
+      '+++ b/src/api/orders.ts',
+      `@@ -1,1 +1,${body.length + 1} @@`,
+      " import { db } from '../db';",
+      ...body.map((line) => `+${line}`),
+      '',
+    ].join('\n'),
+  );
+  return runReview([diffPath]);
+}
+
+test('an unrelated userId in the handler does not silence IDOR', () => {
+  const result = reviewHandler([
+    'export async function getOrder(req: Request, res: Response) {',
+    '  const userId = req.params.userId; // analytics only',
+    '  const order = await db.orders.findById(req.params.id);',
+    '  return res.json(order);',
+    '}',
+  ]);
+  assert.equal(result.status, 1);
+  assert.match(result.stdout, /Reason: AuthZ\/IDOR at src\/api\/orders\.ts:4 /);
+});
+
+test('userId on the sink line but outside the query does not silence IDOR', () => {
+  const result = reviewHandler([
+    'export async function getOrder(req: Request, res: Response) {',
+    '  const order = await db.orders.findUnique({ where: { id: req.params.id } }); const userId = 1;',
+    '  return res.json(order);',
+    '}',
+  ]);
+  assert.equal(result.status, 1);
+  assert.match(result.stdout, /Evidence: src\/api\/orders\.ts:3\n/);
+});
+
+test('an ownership check in another handler does not cover this one', () => {
+  const result = reviewHandler([
+    'export async function updateOrder(req: Request, res: Response) {',
+    '  await assertOwner(req.user, req.params.id);',
+    '}',
+    'export async function getOrder(req: Request, res: Response) {',
+    '  const order = await db.orders.findById(req.params.id);',
+    '  return res.json(order);',
+    '}',
+  ]);
+  assert.equal(result.status, 1);
+  assert.match(result.stdout, /Evidence: src\/api\/orders\.ts:6\n/);
+  assert.equal(result.stdout.includes('orders.ts:3'), false);
+});
+
+test('an ownership filter in the query is silence', () => {
+  const result = reviewHandler([
+    'export async function getOrder(req: Request, res: Response) {',
+    '  const order = await db.orders.findFirst({',
+    '    where: { id: req.params.id, ownerId: req.user.id },',
+    '  });',
+    '  return res.json(order);',
+    '}',
+  ]);
+  assert.equal(result.status, 0);
+  assert.equal(result.stdout, 'no evidence-based findings\n');
+});
+
+test('a principal check in the same handler is silence', () => {
+  const result = reviewHandler([
+    'export async function getOrder(req: Request, res: Response) {',
+    '  const order = await db.orders.findById(req.params.id);',
+    '  if (order.ownerId !== req.user.id) return res.sendStatus(403);',
+    '  return res.json(order);',
+    '}',
+  ]);
+  assert.equal(result.status, 0);
+});
+
+test('a principal check outside the try block of the same handler is silence', () => {
+  const result = reviewHandler([
+    'export async function getOrder(',
+    '  req: Request,',
+    '  res: Response,',
+    ') {',
+    '  const viewer = req.user;',
+    '  try {',
+    '    const order = await db.orders.findById(req.params.id);',
+    '    if (order.ownerId !== viewer.id) return res.sendStatus(403);',
+    '    return res.json(order);',
+    '  } catch (err) {',
+    '    return res.sendStatus(500);',
+    '  }',
+    '}',
+  ]);
+  assert.equal(result.status, 0);
+  assert.equal(result.stdout, 'no evidence-based findings\n');
+});
+
+test('a check in the next handler does not leak back across the closing brace', () => {
+  const result = reviewHandler([
+    'router.get("/orders/:id", async (req, res) => {',
+    '  const order = await db.orders.findById(req.params.id);',
+    '  res.json(order);',
+    '});',
+    'router.put("/orders/:id", async (req, res) => {',
+    '  if (!canAccess(req.user, req.params.id)) return res.sendStatus(403);',
+    '});',
+  ]);
+  assert.equal(result.status, 1);
+  assert.match(result.stdout, /Evidence: src\/api\/orders\.ts:3\n/);
+});
+
 test('missing path prints usage and exits 2', () => {
   const result = runReview([]);
   assert.equal(result.status, 2);
