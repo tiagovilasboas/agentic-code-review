@@ -148,8 +148,8 @@ New guardrails must not weaken [`guardrails/evidence-required.md`](guardrails/ev
 Clone, run the CLI, or load the Agent Skill and one markdown skill on a diff.
 
 ```bash
-git clone https://github.com/tiagovilasboas/agentic-code-review.git
-cd agentic-code-review
+git clone https://github.com/tiagovilasboas/ai-code-review.git
+cd ai-code-review
 npm run review -- examples/xss-sink.sample.diff
 ```
 
